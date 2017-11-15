@@ -1,4 +1,4 @@
-# instant
+# Instant Degree
 Instant Degree web site for our cosc304 project
 
 **Configuring the project to use your database!**
