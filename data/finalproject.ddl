@@ -245,7 +245,7 @@ Insert Into ProductCategory(catName, description, imageId)
 	Values("Cups", "Drink out of these", null);
 SET @lastid =  LAST_INSERT_ID();
 Insert Into Product(pname, description, price, pointValue, optionsCode, categoryId, imageId)
-	Values("UBCO CoffeeMug", "It's a mug from the UBCO bookstore", 5.75, 10, 0, @lastid, null);	
+	Values("CoffeeMug-UBCO", "It's a mug from the UBCO bookstore", 5.75, 10, 0, @lastid, null);	
 Insert Into Product(pname, description, price, pointValue, optionsCode, categoryId, imageId)
-	Values("TRU CoffeMug", "It's a mug from TRU", 5.75, 10, 0, @lastid, null);
+	Values("CoffeMug-TRU", "It's a mug from TRU", 5.75, 10, 0, @lastid, null);
 
