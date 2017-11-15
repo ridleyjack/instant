@@ -27,5 +27,5 @@ To use it write this..
 Look at listprod and listprodForm for an example.
 
 **Other Notes**
-If anybody doesn't like doing the coding stuff they can focus more on making the site look good. You would most just need
+If anybody doesn't like doing the coding stuff they can focus more on making the site look good. You would mostly just need
 to play around with the .css and html and maybe make some graphics or something.
