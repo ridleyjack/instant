@@ -249,3 +249,5 @@ Insert Into Product(pname, description, price, pointValue, optionsCode, category
 Insert Into Product(pname, description, price, pointValue, optionsCode, categoryId, imageId)
 	Values("Glass", "A glass", 5.75, 10, 0, @lastid, null);
 
+
+
