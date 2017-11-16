@@ -21,9 +21,9 @@ public class LoadData
 	{		
 		System.out.println("Connecting to database.");
 
-		String url="jdbc:mysql://cosc304.ok.ubc.ca/db_jjackson";
-		String usr="jjackson";
-		String pass="86696549";
+		String url="jdbc:mysql://cosc304.ok.ubc.ca/db_username";
+		String usr="username";
+		String pass="password";
 		Connection con = DriverManager.getConnection(url,usr,pass);
 				
 		String fileName = "data/finalproject.ddl";
