@@ -3,8 +3,8 @@
 <Context>
 	<!-- Specify a JDBC datasource -->
 	<Resource name="jdbc/db_settings" auth="Container"
-		type="javax.sql.DataSource" username="<username>" password="<password>"
+		type="javax.sql.DataSource" username="jjackson" password="86696549"
 		driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://cosc304.ok.ubc.ca/db_<mysqldbname>"
+		url="jdbc:mysql://cosc304.ok.ubc.ca/db_jjackson"
 		maxTotal="100" maxIdle="10" maxWaitMillis="30000" />
 </Context>
