@@ -1,0 +1,6 @@
+##compiled stuff
+*.class
+
+#These contain personal credentials
+WebContent\META-INF\context.xml
+src\ridleyjack\insta\data\LoadData.java
