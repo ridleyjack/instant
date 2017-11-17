@@ -82,7 +82,7 @@ while (iterator.hasNext()) {
 		out.println("Invalid quantity for product: "+id+" quantity: "+quantityStr);
 	}	
 
-	//The for each loop needs 
+	//The jstl foreach loop needs 
 	HashMap<String, Object> productMap = new HashMap<>();
 	productMap.put("productId", id);
 	productMap.put("pname", pname);
