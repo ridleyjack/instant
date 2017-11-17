@@ -19,8 +19,9 @@ import javax.sql.DataSource;
  * Servlet implementation class Database * 
  */
 @WebServlet("/Database")
-public class Database extends HttpServlet {
+public class Database extends HttpServlet {	
 	private static final long serialVersionUID = 1L;
+	
 	private static DataSource dataSource;
 	
 	//Can only be used by web pages.
