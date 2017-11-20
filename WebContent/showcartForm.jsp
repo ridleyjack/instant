@@ -10,11 +10,12 @@
 <body>
 
 <h1>Your Shopping Cart</h1>
+<h2>Products</h2>
 <table>
 	<tr>
 		<th>Product Id</th><th>Product Name</th><th>Price</th><th>Quantity</th><th>Subtotal</th>
 	</tr>
-    <c:forEach var="row" items="${listMap}">
+    <c:forEach var="row" items="${prodList}">
         <tr>
             <td><c:out value="${row.productId}" /></td>            
             <td><c:out value="${row.pname}" /></td>
@@ -24,10 +25,28 @@
             <td><a href="showcart.jsp?deleteId=${row.productId}">Remove From Cart</a></td>
         </tr>
     </c:forEach>
-    <tr><td colspan="5" align="right"><b>Order Total:</b><c:out value="${totalPrice}"/></td>
-    
+    <tr><td colspan="6" align="right"><b>Product Total:</b><c:out value="${productTotal}"/></td>    
 </table>
-
+<h2>Degrees</h2>
+<table>
+	<tr>
+		<th>Degree Id</th><th>Name</th><th>University</th><th>Discipline</th><th>Honours</th><th>Distinction</th><th>Cost</th>
+	</tr>
+    <c:forEach var="row" items="${degreeList}">
+        <tr>
+            <td><c:out value="${row.degreeId}" /></td>            
+            <td><c:out value="${row.name}" /></td>
+            <td><c:out value="${row.university}" /></td>
+            <td><c:out value="${row.discipline}" /></td>
+            <td><c:out value="${row.honours}" /></td>
+            <td><c:out value="${row.distinction}" /></td>
+            <td><c:out value="${row.cost}" /></td>
+            <td><a href="showcart.jsp?deleteIdDeg=${row.degreeId}">Remove From Cart</a></td>
+        </tr>
+    </c:forEach>
+    <tr><td colspan="8" align="right"><b>Degree Total:</b><c:out value="${degreeTotal}"/></td> 
+</table>
+<h2>Order Total:<c:out value="${totalPrice}"/></h2>
 <h2><a href="checkout.jsp">Check Out</a></h2>
 
 </body>

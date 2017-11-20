@@ -13,6 +13,7 @@
 
 // Get the current list of products
 String deleteId = request.getParameter("deleteId");
+String deleteIdDeg = request.getParameter("deleteIdDeg");
 String updateId = request.getParameter("updateId");
 String updateQty = request.getParameter("updateQty");
 
@@ -24,6 +25,23 @@ if (productList == null)
 {	
 	productList = new HashMap<String, ArrayList<Object>>();
 }
+
+//Degree Cart
+@SuppressWarnings({"unchecked"})
+HashMap<String, ArrayList<Object>> degreeList = (HashMap<String, ArrayList<Object>>) session.getAttribute("degreeList");
+
+//If null create new shopping cart
+if (degreeList == null)
+{	
+	degreeList = new HashMap<String, ArrayList<Object>>();
+}
+//delete degree if paramater isn't null
+if(deleteIdDeg !=null){
+	if (degreeList.containsKey(deleteIdDeg)) degreeList.remove(deleteIdDeg);
+	response.sendRedirect("showcart.jsp"); //start again to clear url
+	return;
+}
+
 //Update or delete if paramaters arn't null
 if (deleteId != null){
 	if (productList.containsKey(deleteId)) productList.remove(deleteId);
@@ -46,9 +64,10 @@ NumberFormat currFormat = NumberFormat.getCurrencyInstance();
 Iterator<Map.Entry<String, ArrayList<Object>>> iterator = productList.entrySet().iterator();
 ArrayList< HashMap<String, Object> > mappedProduct = new ArrayList<>();
 
-double total =0;
+double productTotal = 0;
 int count = 1;
 
+//Iterate through all the products.. Create little hashmaps representing the products.. add them to our Arraylist of products
 while (iterator.hasNext()) {
 	Map.Entry<String, ArrayList<Object>> entry = iterator.next();
 	ArrayList<Object> product = (ArrayList<Object>) entry.getValue();
@@ -91,14 +110,39 @@ while (iterator.hasNext()) {
 	productMap.put("subtotal", currFormat.format( price*quantity) );
 	mappedProduct.add(productMap);
 
-	total = total + price*quantity;
+	productTotal = productTotal + price*quantity;
 	count++;		
 }
 
-request.setAttribute("listMap", mappedProduct);
-request.setAttribute("totalPrice", currFormat.format(total));
-request.getRequestDispatcher("showcartForm.jsp").forward(request, response);
 
+ArrayList< HashMap<String, Object> > mappedDegree = new ArrayList<>();
+iterator = degreeList.entrySet().iterator();
+
+//Iterate through all the degrees.. Create little hashmaps representing the degrees.. add them to our Arraylist of degrees
+double degreeTotal = 0;
+while(iterator.hasNext()){
+	Map.Entry<String, ArrayList<Object>> entry = iterator.next();
+	ArrayList<Object> degree = (ArrayList<Object>) entry.getValue();
+	
+	HashMap<String, Object> degreeMap = new HashMap<>();
+	degreeMap.put("degreeId", degree.get(0));
+	degreeMap.put("name", degree.get(1));
+	degreeMap.put("university", degree.get(2));
+	degreeMap.put("discipline", degree.get(3));
+	degreeMap.put("honours", degree.get(4));
+	degreeMap.put("distinction", degree.get(5));
+	degreeMap.put("cost", degree.get(6) ); //degree price is hardcoded
+	
+	mappedDegree.add(degreeMap);
+	degreeTotal += Double.valueOf(degree.get(6).toString());
+}
+
+request.setAttribute("degreeList", mappedDegree);
+request.setAttribute("prodList", mappedProduct);
+request.setAttribute("productTotal", productTotal);
+request.setAttribute("degreeTotal", degreeTotal);
+request.setAttribute("totalPrice", currFormat.format(degreeTotal + productTotal));
+request.getRequestDispatcher("showcartForm.jsp").forward(request, response);
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">

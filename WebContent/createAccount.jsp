@@ -39,11 +39,11 @@ try(Connection c = Database.getConnection();){
 			+" Values(?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS );
 	stmt.setString(1, username); 
 	stmt.setString(2, password);
-	stmt.setDate(3, new Date(System.currentTimeMillis())); 
-	stmt.setDate(4, new Date(System.currentTimeMillis()));
+	stmt.setDate(3, new Date(System.currentTimeMillis())); //Creation Date
+	stmt.setDate(4, new Date(System.currentTimeMillis())); // Last Login Date
 	stmt.setString(5, name);
 	stmt.setString(6, email);
-	stmt.setBoolean(7, false);
+	stmt.setBoolean(7, false); //isDeactivated?
 	stmt.setInt(8, type);//admin level
 	stmt.executeUpdate();
 	

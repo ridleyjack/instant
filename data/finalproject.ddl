@@ -28,7 +28,7 @@ drop table University;
 
 drop table ProductCategory;
 
-drop table Dicipline;
+drop table Discipline;
 
 drop table Warehouse;
 
@@ -114,7 +114,7 @@ foreign key(imageId) References Image(imageId)
 	on delete set null on update cascade
 );
 
-create Table Dicipline(
+create Table Discipline(
 name varchar(255) primary key,
 description varchar(1000)
 );
@@ -127,12 +127,15 @@ withHonours bool,
 withDistinction bool,
 uniName varchar(255),
 dicName varchar(255),
-shipmentId int not null,
+shipmentId int,
+createdBy int not null,
 foreign key(uniName) References University(name)
 	on delete set null on update cascade,
-foreign key(dicName) References Dicipline(name)
+foreign key(dicName) References Discipline(name)
 	on delete set null on update cascade,
 foreign key(shipmentId) References Shipment(shipmentId)
+	on delete set null on update cascade,
+foreign key(createdBy) References Account(accountId)
 	on delete cascade on update cascade
 );
 
@@ -249,5 +252,22 @@ Insert Into Product(pname, description, price, pointValue, optionsCode, category
 Insert Into Product(pname, description, price, pointValue, optionsCode, categoryId, imageId)
 	Values("Glass", "A glass", 5.75, 10, 0, @lastid, null);
 
+Insert Into Discipline(name, description)
+	Values("Computer Science", "Bachelor of Science, with a major in Computer Science");
+Insert Into Discipline(name, description)
+	Values("Biology", "Bachelor of Science, with a major in Biology");
+Insert Into Discipline(name, description)
+	Values("Chemistry", "Bachelor of Science, with a major in Chemistry");	
 
+Insert Into University(name, description, imageId)
+	Values("UBC Okanagan", "A University located in Kelowna", null);
+Insert Into University(name, description, imageId)
+	Values("UBC Vancouver", "A University located in Vancouver", null);
+
+Insert Into Account
+(loginName, password, creationDate, LastLogin, cname, email, isDeactivated)
+Values("guest", "pass1", DATE('2017-11-19'), DATE('2017-11-19'), "guest", "guest@email.com", false);
+SET @lastid = LAST_INSERT_ID();
+Insert Into Customer(accountId, prizePoints, isWarned, isBanned)
+Values(@lastid, 0, false, false)
 
