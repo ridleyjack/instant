@@ -19,7 +19,7 @@
 
 <%
 String category =  request.getParameter("category");
-
+String nameLike = request.getParameter("productName");
 
 //load products from database
 try(Connection con = Database.getConnection()){
@@ -27,12 +27,14 @@ try(Connection con = Database.getConnection()){
 	
 	if(category==null || category.equals("all")){
 		//select all products
-		getProducts = con.prepareStatement("Select p.*, c.catName From Product as p, ProductCategory as c Where p.categoryId = c.categoryId");
+		getProducts = con.prepareStatement("Select p.*, c.catName From Product as p, ProductCategory as c Where p.categoryId = c.categoryId and p.pname Like ?");
+		getProducts.setString(1, "%"+nameLike+"%");
 	}	
 	else{
 		//select only products in some categories
-		getProducts = con.prepareStatement("Select p.*, c.catName From Product as p, ProductCategory as c Where p.categoryId = c.categoryId and c.categoryId=?");
+		getProducts = con.prepareStatement("Select p.*, c.catName From Product as p, ProductCategory as c Where p.categoryId = c.categoryId and c.categoryId=? and p.pname Like ?");
 		getProducts.setString(1, category); //category id = ?
+		getProducts.setString(2, "%"+nameLike+"%");
 	}
 	
 	ResultSet rslt = getProducts.executeQuery();
