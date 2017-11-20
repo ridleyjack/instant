@@ -18,8 +18,8 @@ Remember to close it though, preferably using try(Connection con = Database.getC
 
 **Html And Java Code Organizationn!**
 1) Apparently it makes the code easier to read if you try and keep java / html code in seperate files.
-I have being doing this a bit by making a servlet called somethingForm.jsp with the HTML stuff and another filed called 
-something.jsp containing the logic. (but you can make web pages how ever you want)
+I have being doing this a bit by making a jsp file called somethingForm.jsp with the HTML stuff and another filed called 
+something.jsp containing the logic. (but you can make web pages how ever you want).
 
 2) If you want to avoid mixing html/java there is a library I have included called jstl.
 To use it write this..
