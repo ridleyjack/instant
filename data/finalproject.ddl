@@ -83,11 +83,9 @@ foreign key(imageId) references Image(imageId)
 
 Create Table CustomerOrder(
 orderId int primary key auto_increment,
-status int not null default 0,
 placed date,
-amountPaid decimal(6,2),
+totalCost decimal(6,2),
 pointsEarned int,
-taxRateAtPurchase decimal(2,2),
 accountId int,
 foreign key(accountId) References Customer(accountId)
 	on delete set null on update cascade
@@ -266,8 +264,38 @@ Insert Into University(name, description, imageId)
 
 Insert Into Account
 (loginName, password, creationDate, LastLogin, cname, email, isDeactivated)
-Values("guest", "pass1", DATE('2017-11-19'), DATE('2017-11-19'), "guest", "guest@email.com", false);
+Values("guest", "5sPaWyBmNNfz81htdH/9s2tcZ1dXs4DGpf5cVwxxQ0k=", DATE('2017-11-19'), DATE('2017-11-19'), "guest", "guest@email.com", false);
 SET @lastid = LAST_INSERT_ID();
 Insert Into Customer(accountId, prizePoints, isWarned, isBanned)
-Values(@lastid, 0, false, false)
+Values(@lastid, 0, false, false);
+Insert Into Address(typCode, street, city, postalCode, accountId)
+Values(0, "1245 Guest Street NW", "Kelowna", "G1Y4R3", @lastid);
+
+Insert Into Warehouse
+(warehouseId, street, city, postalCode)
+Values(0, "1914 Fake Street", "Kelowna", "R4W7Q1");
+
+Insert Into Warehouse
+(warehouseId, street, city, postalCode)
+Values(1, "1939 Real Street", "Prince George", "A8C1T4");
+
+select @prodId := productId From Product Where pname ="Pants";  
+Insert Into StoresProduct
+(warehouseId, productId, amount)
+Values(0, @prodId, 10);
+
+select @prodId := productId From Product Where pname ="Pants";  
+Insert Into StoresProduct
+(warehouseId, productId, amount)
+Values(1, @prodId, 10);
+
+select @prodId := productId From Product Where pname ="Hat";  
+Insert Into StoresProduct
+(warehouseId, productId, amount)
+Values(0, @prodId, 50);
+
+select @prodId := productId From Product Where pname ="Glass";  
+Insert Into StoresProduct
+(warehouseId, productId, amount)
+Values(1, @prodId, 5);
 
