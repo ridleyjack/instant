@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    
+<%@include file="header.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -69,7 +71,7 @@ if (session.getAttribute("loginMessage") != null)
 	Postal Code:<br>
 	<input type="text" name="postalcode" ><br><br>		
 	<input type="hidden" name="type" value="0"> <!-- 0=customer -->	
-	<input type="submit"><br>
+	<input type="submit" value="Create Account"><br>
 </form>
 
 </body>

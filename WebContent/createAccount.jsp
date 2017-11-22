@@ -62,9 +62,10 @@ try(Connection c = Database.getConnection();){
 		stmtCust.setBoolean(4, false);
 		stmtCust.executeUpdate();
 	}
+
+	session.setAttribute("loginMessage", "Account Created Successfully! Please Log In");
+	response.sendRedirect("loginForm.jsp");
 	
-	//Should redirect to somewhere eventually
-	out.print("Account Created Successfully!");
 }
 catch(SQLException ex) {out.print(ex);}
 

@@ -23,7 +23,7 @@ session = request.getSession();
 
 try(Connection con = Database.getConnection()){
 	//Try and find username + password in database
-	String sql = "Select password From Account Where loginName=? and password=?";
+	String sql = "Select password, accountId From Account Where loginName=? and password=?";
 	PreparedStatement stmt = con.prepareStatement(sql);
 	stmt.setString(1, username);
 	stmt.setString(2,password);
@@ -32,6 +32,7 @@ try(Connection con = Database.getConnection()){
 	//Look at result set
 	if(rslt.next()){ //found
 		session.setAttribute("authenticatedUser", username);
+		session.setAttribute("authenticatedUserId", rslt.getString("accountId"));
 		session.removeAttribute("loginMessage");
 		out.print("Login Successful!");
 	}
