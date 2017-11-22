@@ -299,3 +299,11 @@ Insert Into StoresProduct
 (warehouseId, productId, amount)
 Values(1, @prodId, 5);
 
+select @prodId := productId From Product Where pname="Hat";
+Insert Into Review( description, rating, accountId, productId)
+Values("I like to wear the hat on my head", 4, 1, @prodId);
+
+select @prodId := productId From Product Where pname="Hat";
+Insert Into Review( description, rating, accountId, productId)
+Values("I do not like to wear the hat on my head", 1, 1, @prodId);
+
