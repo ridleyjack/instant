@@ -66,8 +66,8 @@ foreign key(accountId) references Account(accountId)
 );
 
 Create Table Image(
-imageId int primary key,
-caption varchar(255),
+imageId int primary key Auto_Increment,
+fileName varchar(255),
 imageData blob not null
 );
 
@@ -159,7 +159,6 @@ pname varchar(255) not null,
 description varchar(255),
 price Decimal(6,2) not null,
 pointValue int not null,
-optionsCode int not null,
 categoryId int not null,
 imageId int,
 foreign key(categoryId) References ProductCategory(categoryId)
@@ -186,8 +185,6 @@ create Table Review(
 reviewId int primary key auto_increment,
 description varchar(1000),
 rating varchar(1),
-isHidden bool,
-isLocked bool,
 accountId int not null,
 productId int not null,
 foreign key(accountId) references Customer(accountId)
@@ -235,20 +232,20 @@ foreign key(productId) References Product(productId)
 Insert Into ProductCategory(catName, description, imageId)
 	Values("Clothing", "Things you can wear", null);
 SET @lastid = LAST_INSERT_ID();
-Insert Into Product(pname, description, price, pointValue, optionsCode, categoryId, imageId)
-	Values("T-Shirt", "It's a shirt.", 40.50, 500, 0, @lastid, null);	
-Insert Into Product(pname, description, price, pointValue, optionsCode, categoryId, imageId)
-	Values("Pants", "It's some pants.", 35.75, 500, 0, @lastid, null);
-Insert Into Product(pname, description, price, pointValue, optionsCode, categoryId, imageId)
-	Values("Hat", "A hat to wear on your head.", 35.75, 500, 0, @lastid, null);
+Insert Into Product(pname, description, price, pointValue, categoryId, imageId)
+	Values("T-Shirt", "It's a shirt.", 40.50, 500, @lastid, null);	
+Insert Into Product(pname, description, price, pointValue, categoryId, imageId)
+	Values("Pants", "It's some pants.", 35.75, 500, @lastid, null);
+Insert Into Product(pname, description, price, pointValue, categoryId, imageId)
+	Values("Hat", "A hat to wear on your head.", 35.75, 500, @lastid, null);
 	
 Insert Into ProductCategory(catName, description, imageId)
 	Values("Cups", "Drink out of these", null);
 SET @lastid =  LAST_INSERT_ID();
-Insert Into Product(pname, description, price, pointValue, optionsCode, categoryId, imageId)
-	Values("CoffeeMug", "Mug for keeping coffee in", 5.75, 10, 0, @lastid, null);	
-Insert Into Product(pname, description, price, pointValue, optionsCode, categoryId, imageId)
-	Values("Glass", "A glass", 5.75, 10, 0, @lastid, null);
+Insert Into Product(pname, description, price, pointValue, categoryId, imageId)
+	Values("CoffeeMug", "Mug for keeping coffee in", 5.75, 10, @lastid, null);	
+Insert Into Product(pname, description, price, pointValue, categoryId, imageId)
+	Values("Glass", "A glass", 5.75, 10, @lastid, null);
 
 Insert Into Discipline(name, description)
 	Values("Computer Science", "Bachelor of Science, with a major in Computer Science");
