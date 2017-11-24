@@ -32,6 +32,14 @@ public class Database extends HttpServlet {
 	
 	private static void initDatabase(){
 		try {
+			try
+			{	// Load driver class
+				Class.forName("com.mysql.jdbc.Driver");
+			}
+			catch (java.lang.ClassNotFoundException e)
+			{
+				System.out.println("ClassNotFoundException: " +e);
+			}
 			// Get DataSource
 			Context initContext  = new InitialContext();
 			Context envContext  = (Context)initContext.lookup("java:/comp/env");
