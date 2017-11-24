@@ -37,7 +37,7 @@ margin-bottom: 30px;
 </style>
 <c:choose>
 <c:when test= "${isAdmin==1 }">
- <p>Admin Page: <a href="./AdminPerks/admin.jsp"> private</a></p>
+ <p>Admin Page: <a href="admin.jsp"> private</a></p>
 </c:when>
 </c:choose>
 <c:choose>
@@ -61,11 +61,11 @@ margin-bottom: 30px;
 <form>
 	<table id="navigation">
 	<tr>
-	<td><a href="index.jsp">Home</a></td>
-	<td><a href="createdegree.jsp">Make a Degree</a></td>
-	<td><a href="listprod.jsp">Products</a></td>
-	<td><a href="showcart.jsp">Cart</a></td>
-	<td><a href="account.jsp">Account</a></td>
+	<td><a href="../index.jsp">Home</a></td>
+	<td><a href="../createdegree.jsp">Make a Degree</a></td>
+	<td><a href="../listprod.jsp">Products</a></td>
+	<td><a href="../showcart.jsp">Cart</a></td>
+	<td><a href="../account.jsp">Account</a></td>
 	</tr>
 	</table>
 </form>

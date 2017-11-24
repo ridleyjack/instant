@@ -3,7 +3,7 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="ridleyjack.insta.data.Database" %>
 <%@ page import="ridleyjack.insta.util.Security" %>
-
+<%@include file="header.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -23,7 +23,7 @@ session = request.getSession();
 
 try(Connection con = Database.getConnection()){
 	//Try and find username + password in database
-	String sql = "Select password, accountId From Account Where loginName=? and password=?";
+	String sql = "Select password, accountId, adminLevel From Account Where loginName=? and password=?";
 	PreparedStatement stmt = con.prepareStatement(sql);
 	stmt.setString(1, username);
 	stmt.setString(2,password);
@@ -33,6 +33,7 @@ try(Connection con = Database.getConnection()){
 	if(rslt.next()){ //found
 		session.setAttribute("authenticatedUser", username);
 		session.setAttribute("authenticatedUserId", rslt.getString("accountId"));
+		session.setAttribute("isAdmin", rslt.getInt("adminLevel"));
 		session.removeAttribute("loginMessage");
 		out.print("Login Successful!");
 	}

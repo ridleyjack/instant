@@ -21,6 +21,7 @@ if(session.getAttribute("authenticatedUser") == null){
 
 session.setAttribute("authenticatedUser", null);
 session.setAttribute("authenticatedUser", null);
+session.setAttribute("isAdmin",null);
 session.setAttribute("loginMessage", "Successfully Logged Out!");
 //TODO: Save Cart To Database here
 response.sendRedirect("loginForm.jsp");
