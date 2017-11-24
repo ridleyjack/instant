@@ -18,7 +18,7 @@ if(productId == null){
 }
 try(Connection con = Database.getConnection()){
 	
-	PreparedStatement getProduct = con.prepareStatement("SELECT * FROM Product WHERE productId = ?");
+	PreparedStatement getProduct = con.prepareStatement("SELECT P.*, Sum(SP.amount) as amount FROM Product P LEFT JOIN  StoresProduct SP ON P.productId = SP.productId WHERE P.productId = ? GROUP BY SP.productId");
 	getProduct.setString(1, productId);
 	ResultSet product = getProduct.executeQuery();
 	String name = null;
@@ -26,20 +26,25 @@ try(Connection con = Database.getConnection()){
 	String price = null;
 	Integer points = null;
 	Integer img = null;
+	String amount = null;
 	if(product.next()){
 	name = product.getString("pname");
 	desc = product.getString("description");
 	price = product.getString("price");
 	points = product.getInt("pointValue");
 	img = product.getInt("imageId");
+	amount = product.getString("amount");
+	if(amount == null) amount = "0";
 	}
 	request.setAttribute("name", name);
 	request.setAttribute("desc", desc);
 	request.setAttribute("price", price);
 	request.setAttribute("points", points);
 	request.setAttribute("img", img);
+	request.setAttribute("amount",amount);
+	request.setAttribute("productId",productId);
 	
-	PreparedStatement reviews = con.prepareStatement("SELECT description,rating,accountId FROM Review WHERE productId = ?");
+	PreparedStatement reviews = con.prepareStatement("SELECT description,rating,loginName FROM Review,Account WHERE Review.accountId= Account.accountId AND productId = ?");
 	reviews.setString(1, productId);
 	ResultSet rst = reviews.executeQuery();
 	Result Reviews = ResultSupport.toResult(rst);

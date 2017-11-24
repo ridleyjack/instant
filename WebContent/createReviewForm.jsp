@@ -16,23 +16,18 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>Product: <c:out value="${name}"/> $<c:out value="${price}"/></h1> 
-<h3>Description: <c:out value="${desc}"/></h3>
-<h3>It is worth: <c:out value="${points}"/> points</h3>
-<h5>Amount in stock: <c:out value="${amount}"/></h5>
+<h1>Create a Review</h1>
+<%
+String prodid = request.getParameter("id");
+request.setAttribute("id",prodid);
+%>
+<form action="createReview.jsp?id=${id }" method="post">
+Description (1000 Characters max): <input type = "text" name= "desc">
+Rating (1-5): <input type = "text" name= "rating">
+  <input type="submit" value="Create Review">
+  <input type="hidden" id="prodid" name = "prod" value ="${prodid }"> 
+  
 
-<h5><a href=createReviewForm.jsp?id=${productId}>Create Review</a></h5>
-<table>
-	<tr>
-		<th>User Id</th><th>Reviews</th><th>Rating</th>
-	</tr>
-    <c:forEach var="row" items="${reviews.rows}">
-        <tr>
-        <td><c:out value="${row.loginName}" /></td>
-            <td><c:out value="${row.description}" /></td>
-            <td><c:out value="${row.rating}" /></td>
-        </tr>
-    </c:forEach>
-</table>
+</form>
 </body>
 </html>
