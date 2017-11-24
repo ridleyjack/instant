@@ -86,7 +86,7 @@ orderId int primary key auto_increment,
 placed date,
 totalCost decimal(6,2),
 pointsEarned int,
-accountId int,
+accountId int not null,
 foreign key(accountId) References Customer(accountId)
 	on delete set null on update cascade
 );
@@ -95,7 +95,8 @@ Create Table Shipment(
 shipmentId int primary key,
 shipped Date,
 recieved Date,
-statusCode int not null default 0,
+readyToShip boolean default false not null,
+shipped boolean default false not null,
 orderId int not null,
 addressId int not null,
 foreign key(orderID) references CustomerOrder(orderId)
@@ -270,31 +271,31 @@ Values(0, "1245 Guest Street NW", "Kelowna", "G1Y4R3", @lastid);
 
 Insert Into Warehouse
 (warehouseId, street, city, postalCode)
-Values(0, "1914 Fake Street", "Kelowna", "R4W7Q1");
+Values(1, "1914 Fake Street", "Kelowna", "R4W7Q1");
 
 Insert Into Warehouse
 (warehouseId, street, city, postalCode)
-Values(1, "1939 Real Street", "Prince George", "A8C1T4");
-
-select @prodId := productId From Product Where pname ="Pants";  
-Insert Into StoresProduct
-(warehouseId, productId, amount)
-Values(0, @prodId, 10);
+Values(2, "1939 Real Street", "Prince George", "A8C1T4");
 
 select @prodId := productId From Product Where pname ="Pants";  
 Insert Into StoresProduct
 (warehouseId, productId, amount)
 Values(1, @prodId, 10);
 
+select @prodId := productId From Product Where pname ="Pants";  
+Insert Into StoresProduct
+(warehouseId, productId, amount)
+Values(2, @prodId, 10);
+
 select @prodId := productId From Product Where pname ="Hat";  
 Insert Into StoresProduct
 (warehouseId, productId, amount)
-Values(0, @prodId, 50);
+Values(1, @prodId, 50);
 
 select @prodId := productId From Product Where pname ="Glass";  
 Insert Into StoresProduct
 (warehouseId, productId, amount)
-Values(1, @prodId, 5);
+Values(2, @prodId, 5);
 
 select @prodId := productId From Product Where pname="Hat";
 Insert Into Review( description, rating, accountId, productId)
