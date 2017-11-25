@@ -19,10 +19,19 @@ if(session.getAttribute("authenticatedUser") == null){
 }
 //we were
 
+//Clear carts
+session.setAttribute("productList", null);
+session.setAttribute("degreeList", null);
+
+//Clear order variables
+session.setAttribute("productsInOrder", null);
+
+//Clear user information
 session.setAttribute("authenticatedUser", null);
 session.setAttribute("authenticatedUser", null);
 session.setAttribute("isAdmin",null);
-session.setAttribute("productsInOrder", null);
+
+
 session.setAttribute("loginMessage", "Successfully Logged Out!");
 //TODO: Save Cart To Database here
 response.sendRedirect("loginForm.jsp");
