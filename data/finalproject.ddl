@@ -10,7 +10,7 @@ drop table Comment;
 
 drop table Review;
 
-drop table ProductSelection;
+drop table OrderedProduct;
 
 drop table Product;
 
@@ -88,15 +88,14 @@ totalCost decimal(6,2),
 pointsEarned int,
 accountId int not null,
 foreign key(accountId) References Customer(accountId)
-	on delete set null on update cascade
+	on update cascade
 );
 
 Create Table Shipment(
-shipmentId int primary key,
+shipmentId int primary key auto_increment,
 shipped Date,
 recieved Date,
 readyToShip boolean default false not null,
-shipped boolean default false not null,
 orderId int not null,
 addressId int not null,
 foreign key(orderID) references CustomerOrder(orderId)
@@ -168,7 +167,7 @@ foreign key(imageId) References Image(imageId)
 	on delete set null on update cascade
 );
 
-Create Table ProductSelection(
+Create Table OrderedProduct(
 productId int,
 warehouseId int,
 shipmentId int,
