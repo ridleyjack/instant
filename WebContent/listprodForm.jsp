@@ -44,10 +44,11 @@ catch(SQLException ex){ out.print(ex);}
 
 <table>
 	<tr>
-		<th>Name</th><th>Category</th><th>Description</th><th>Price</th><th>Points</th>
+		<th>Image</th><th>Name</th><th>Category</th><th>Description</th><th>Price</th><th>Points</th>
 	</tr>
     <c:forEach var="row" items="${products.rows}">
         <tr>
+        	<td><iframe src="<c:url value="/imageview.jsp?id=${row.imageId}" />" width="100" height="100" scrolling="no" frameborder="0"></iframe></td>
             <td><c:out value="${row.pname}" /></td>
             <td><c:out value="${row.catName}" /></td>
             <td><c:out value="${row.description}" /></td>
