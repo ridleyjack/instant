@@ -64,6 +64,7 @@ try(Connection con = Database.getConnection()){
 	
 	double productTotal = 0;
 	int productCount = 0;
+	int pointTotal = 0;
 	
 	//This array list will store all the products we are going to order and the amount.
 	//The product information will be kept in a hashmap contaning product id, amount to order, message notifing user amount being ordered
@@ -86,10 +87,12 @@ try(Connection con = Database.getConnection()){
 		String pname = product.get(1).toString();
 		String priceStr = product.get(2).toString();
 		String quantityStr = product.get(3).toString();
+		String pointStr = product.get(4).toString();
 		
 		//try and get a price and quantity from product information
 		double price = 0;
 		int quantity = 0;
+		int point = 0;
 		try
 		{
 			price = Double.parseDouble( priceStr );
@@ -105,6 +108,14 @@ try(Connection con = Database.getConnection()){
 		catch (Exception e)
 		{
 			out.println("Invalid quantity for product: "+id+" quantity: "+quantityStr);
+		}
+		try
+		{
+			point = Integer.parseInt( pointStr );
+		}
+		catch (Exception e)
+		{
+			out.println("Invalid points for product: "+id+" quantity: "+quantityStr);
 		}
 		
 		HashMap<String, String > productOrder = new HashMap<>();
@@ -141,6 +152,7 @@ try(Connection con = Database.getConnection()){
 		
 		productTotal = productTotal + price*quantity;	
 		productCount += quantity;
+		pointTotal += point;
 	}//end iterate through products
 	
 	
@@ -172,6 +184,8 @@ try(Connection con = Database.getConnection()){
 	
 	//Shipment Information
 	session.setAttribute("productsInOrder", productsInOrder);
+	session.setAttribute("orderTotalCost", purchaseTotal);
+	session.setAttribute("orderTotalPoint", pointTotal);
 	
 	//User information
 	request.setAttribute("userId", userId);

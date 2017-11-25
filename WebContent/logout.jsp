@@ -25,6 +25,8 @@ session.setAttribute("degreeList", null);
 
 //Clear order variables
 session.setAttribute("productsInOrder", null);
+session.setAttribute("orderTotalCost", null);
+session.setAttribute("orderTotalPoint", null);
 
 //Clear user information
 session.setAttribute("authenticatedUser", null);

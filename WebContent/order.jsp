@@ -175,6 +175,31 @@ try(Connection con = Database.getConnection()){
 	}
 	//Reset The Degree Cart
 	session.setAttribute("degreeList", null);
+
+	double orderTotal = 0;
+	int pointTotal = 0;
+	try{//Lazy validation
+		orderTotal = Double.parseDouble( session.getAttribute("orderTotalCost").toString() );
+		pointTotal = Integer.parseInt(session.getAttribute("orderTotalPoint").toString());
+	}
+	catch(Exception e){
+		orderTotal = -1;
+		pointTotal = -1;
+	}
+	
+	System.out.println(orderTotal);
+	System.out.println(pointTotal);
+	System.out.println(orderId);
+	
+	orderTotal *= 100;
+	orderTotal = Math.round(orderTotal);
+	orderTotal /= 100;
+	
+	PreparedStatement updateOrder = con.prepareStatement("Update CustomerOrder SET totalCost=?, pointsEarned=? WHERE orderId=?");
+	updateOrder.setDouble(1, orderTotal);
+	updateOrder.setInt(2, pointTotal);
+	updateOrder.setInt(3, orderId);
+	updateOrder.executeUpdate();
 	
 	response.sendRedirect("orderForm.jsp?orderId=" + orderId);
 }
