@@ -22,7 +22,8 @@ padding-top: 10px;
 <%
 // Print prior error login message if present (from sample code)
 if (session.getAttribute("loginMessage") != null){
-	out.println("<p>"+session.getAttribute("loginMessage").toString()+"</p>");	
+	out.println("<p>"+session.getAttribute("loginMessage").toString()+"</p>");
+	session.removeAttribute("loginMessage");
 }
 %>
 
