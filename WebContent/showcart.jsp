@@ -52,7 +52,7 @@ if (updateId != null && updateQty != null){
 	if (!productList.containsKey(updateId)) out.print("UpdateQTYErr: Product with id:" + updateId + " not found in cart");
 	else {
 		ArrayList<Object> product = (ArrayList<Object>) productList.get(updateId);
-		product.set(3, updateQty);		
+		product.set(3, Integer.parseInt(updateQty));		
 	}
 	response.sendRedirect("showcart.jsp"); //start again to clear url
 	return;

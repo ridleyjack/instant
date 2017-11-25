@@ -22,9 +22,10 @@ if( session.getAttribute("authenticatedUser") == null || session.getAttribute("a
 String username = session.getAttribute("authenticatedUser").toString();
 String userId = session.getAttribute("authenticatedUserId").toString();
 
-//grab our product and degree carts
+//grab product Cart
 @SuppressWarnings({"unchecked"})
 HashMap<String, ArrayList<Object>> productList = (HashMap<String, ArrayList<Object>>) session.getAttribute("productList");
+//grab degree Cart
 @SuppressWarnings({"unchecked"})
 HashMap<String, ArrayList<Object>> degreeList = (HashMap<String, ArrayList<Object>>) session.getAttribute("degreeList");
 if (productList == null)
@@ -64,22 +65,29 @@ try(Connection con = Database.getConnection()){
 	double productTotal = 0;
 	int productCount = 0;
 	
+	//This array list will store all the products we are going to order and the amount.
+	//The product information will be kept in a hashmap contaning product id, amount to order, message notifing user amount being ordered
+	ArrayList<HashMap<String, String>> productsInOrder = new ArrayList<>();
+	
 	//Count up all the products in our cart
+	//Check how much of each product we have in stock.  
 	while (iterator.hasNext()) {
 		Map.Entry<String, ArrayList<Object>> entry = iterator.next();
-		ArrayList<Object> product = (ArrayList<Object>) entry.getValue();
+		
+		ArrayList<Object> product = (ArrayList<Object>) entry.getValue();		
 		if (product.size() < 4)
 		{
 			out.println("Expected product with four entries. Got: "+product);
 			continue;
 		}
-		
+						
 		//Grab product information
 		String id = product.get(0).toString();
 		String pname = product.get(1).toString();
 		String priceStr = product.get(2).toString();
 		String quantityStr = product.get(3).toString();
 		
+		//try and get a price and quantity from product information
 		double price = 0;
 		int quantity = 0;
 		try
@@ -98,15 +106,48 @@ try(Connection con = Database.getConnection()){
 		{
 			out.println("Invalid quantity for product: "+id+" quantity: "+quantityStr);
 		}
+		
+		HashMap<String, String > productOrder = new HashMap<>();
+		
+		//Check how much of the product is available
+		PreparedStatement getAmount = con.prepareStatement("SELECT p.productId, SUM(sp.amount) AS amount FROM Product AS p LEFT JOIN StoresProduct AS sp ON sp.productId = p.productId WHERE p.productId=? GROUP BY sp.productId");
+		getAmount.setString(1, id);
+		ResultSet amount = getAmount.executeQuery();
+		
+		if(!amount.next()){
+			out.println("An Error Ocurred Finding Amount Of Product Given Product ID:"+id);	
+			continue;
+		}
+		
+		int stock = amount.getInt("amount"); //Returns 0 if sql value is null which is what we want.
+		
+		productOrder.put("productId", id);
+		if(stock == 0){
+			productOrder.put("amount", "0");
+			productOrder.put("message", "Out Of Stock!");	
+			quantity = 0;
+		}
+		else if(quantity > stock){
+			productOrder.put("amount", Integer.toString(stock));
+			productOrder.put("message", "Low On Stock! Order Reduced to " + stock);
+			quantity = stock;
+		}
+		else { //if quantity < stock
+			productOrder.put("amount", Integer.toString(quantity));
+			productOrder.put("message", "In Stock");
+		}
+		
+		productsInOrder.add(productOrder);
+		
 		productTotal = productTotal + price*quantity;	
-		productCount++;
-	}
+		productCount += quantity;
+	}//end iterate through products
 	
 	
 	ArrayList< HashMap<String, Object> > mappedDegree = new ArrayList<>();
 	iterator = degreeList.entrySet().iterator();
 	
-	//Iterate through all the degrees.. Create little hashmaps representing the degrees.. add them to our Arraylist of degrees
+	//Iterate through all the degrees to calculate cost.
 	double degreeTotal = 0;
 	double degreeCount = 0;
 	while(iterator.hasNext()){
@@ -129,15 +170,18 @@ try(Connection con = Database.getConnection()){
 	double purchaseShipping = (degreeCount+productCount)*shipCost_Per_Item;
 	double purchaseTotal = purchaseCost + purchaseTax + purchaseShipping;
 	
+	//Shipment Information
+	session.setAttribute("productsInOrder", productsInOrder);
+	
 	//User information
 	request.setAttribute("userId", userId);
 	request.setAttribute("username", username);
 	request.setAttribute("cname", cname); //default cardholder name
-	//Address information
+	//Address Information
 	request.setAttribute("street", street);
 	request.setAttribute("city", city);
 	request.setAttribute("postal", postal);
-	//Cost information
+	//Cost Information
 	request.setAttribute("purchaseCost", currFormat.format(purchaseCost));
 	request.setAttribute("purchaseTax", currFormat.format(purchaseTax));
 	request.setAttribute("purchaseShipping", currFormat.format(purchaseShipping));
@@ -151,7 +195,7 @@ catch(SQLException e){out.print(e);}
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Checkout</title>
 </head>
 <body>
 
