@@ -226,7 +226,7 @@ primary key (warehouseId, productId),
 foreign key (warehouseId) References Warehouse(warehouseId)
 	on delete cascade on update cascade,
 foreign key(productId) References Product(productId)
-	on update cascade 
+	on delete cascade on update cascade 
 );
 
 Insert Into ProductCategory(catName, description, imageId)
