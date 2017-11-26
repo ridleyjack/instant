@@ -17,35 +17,46 @@
 </head>
 
 <body>
-<%
-// Print prior error login message if present (from sample code)
-if (session.getAttribute("ProductAdded") != null){
-	out.println("<p>"+session.getAttribute("ProductAdded").toString()+"</p>");
-	session.removeAttribute("ProductAdded");
+    <% 
+//Check if the user is logged in
+if (session.getAttribute("authenticatedUser") != null){
+	request.setAttribute("username", session.getAttribute("authenticatedUser"));
+	request.setAttribute("admin",session.getAttribute("isAdmin"));
 }
+else{
+	request.setAttribute("username", null);
+}
+
 %>
 <c:choose>
 <c:when test="${isAdmin==1 }">
-<h1>Add a Product</h1>
+<h1>Update a Product</h1>
 
-<form action="addProduct.jsp" method="post">
-Product Name: <input type = "text" name= "pname">
+<form action="modifyProduct.jsp" method="post">
+Product Name: <input type = "text" name= "oldpname">
+New Product Name: <input type = "text" name= "newpname">
 Description: <input type = "text" name= "description">
 Price: <input type = "text" name= "price">
 Points: <input type = "text" name= "pointValue">
 Category Name: <input type = "text" name= "category">
-Image Name (leave blank for default): <input type = "text" name= "imageName">
-  <input type="submit" value="Create Product">
+Image Name(leave blank for default): <input type = "text" name= "imageName">
+  <input type="submit" value="Update Product">
   </form>
+<h1>Or...</h1><br>
+<h1>Delete a Product</h1>
+
+<form action="modifyProduct.jsp" method="post">
+Product Name: <input type = "text" name= "delpname">
+  <input type="submit" value="Delete Product">
+  
+</form>
 </c:when>
 </c:choose>
 
-  <c:choose>
+<c:choose>
 <c:when test="${isAdmin==0||isAdmin==null }">
 <h1>You do not have access to this page.</h1>
 </c:when>
 </c:choose>
-
-
 </body>
 </html>

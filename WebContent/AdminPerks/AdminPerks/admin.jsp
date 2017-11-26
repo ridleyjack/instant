@@ -2,6 +2,8 @@
     pageEncoding="ISO-8859-1"%>
     
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+   <%@include file="header.jsp" %>
+   
     <% 
 //Check if the user is logged in
 if (session.getAttribute("authenticatedUser") != null){
@@ -22,9 +24,15 @@ else{
 <body>
 <c:choose>
 <c:when test="${isAdmin==1 }">
-<h1>YOURE SPECIAL!</h1>
-<p><a href=listCustomers.jsp>List all customers.</a>
-<p><a href=listOrders.jsp>List all orders.</a>
+<h1>Admin Page!</h1>
+<table><tr>
+<th><a href=listCustomers.jsp>List all customers.</a></th>
+<th><a href=listOrders.jsp>List all orders.</a></th>
+<th><a href=imageuploaderForm.jsp>Upload a photo.</a></th>
+<th><a href=addProductForm.jsp>Add a Product.</a></th>
+<th><a href=modifyProductForm.jsp>Modify or Delete a Product.</a></th>
+<th><a href=resetDB.jsp>Reset the database.</a></th>
+</tr></table>
 
 </c:when>
 </c:choose>
