@@ -56,7 +56,6 @@ foreign key(accountId) References Account(accountId)
 
 Create Table Address(
 addressId int primary key auto_increment,
-typCode varchar(1),
 street varchar(255),
 city varchar(255),
 postalCode char(6),
