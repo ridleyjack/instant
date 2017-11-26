@@ -23,6 +23,17 @@
 String username = request.getParameter("username");
 String name = request.getParameter("name");
 String email = request.getParameter("email");
+
+String street = request.getParameter("street");
+String city = request.getParameter("city");
+String postalCode = request.getParameter("postalcode");
+
+//Validation
+if(street.length()<4 || city.length()<4||postalCode.length()!=6){
+	out.print("Missing/Invalid Fields In Address");
+	return;
+}
+
 // Account type: -1=none 0=customer 1,2=admins
 int type = Integer.parseInt(request.getParameter("type"));
 
@@ -61,6 +72,14 @@ try(Connection c = Database.getConnection();){
 		stmtCust.setBoolean(3, false);
 		stmtCust.setBoolean(4, false);
 		stmtCust.executeUpdate();
+		
+		//Create and Address 
+		PreparedStatement addAddress = c.prepareStatement("Insert Into Address(street, city, postalCode, accountId) Values(?, ?, ?, ?)");
+		addAddress.setString(1, street);
+		addAddress.setString(2, city);
+		addAddress.setString(3, postalCode);
+		addAddress.setInt(4, id);
+		addAddress.executeUpdate();
 	}
 
 	session.setAttribute("loginMessage", "Account Created Successfully! Please Log In");
