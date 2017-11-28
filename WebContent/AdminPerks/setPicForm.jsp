@@ -14,21 +14,26 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-
 </head>
 <body>
-<h1>Create a Review</h1>
-<%
-String prodid = request.getParameter("id");
-request.setAttribute("id",prodid);
-%>
-<form action="createReview.jsp?id=${id }" method="post">
-Description (1000 Characters max): <input type = "text" name= "desc">
-Rating (1-5): <input type = "text" name= "rating">
-  <input type="submit" value="Create Review">
-  <input type="hidden" id="prodid" name = "prod" value ="${prodid }"> 
-  
+<div class=list>
+<c:choose>
+<c:when test="${isAdmin==1 }">
+<h1>Add a Product</h1>
 
-</form>
+<form action="setPic.jsp" method="post">
+<p>Product Name: <input type = "text" name= "pname"></p>
+<p>Image Name: <input type = "text" name= "imageName"></p>
+ <p> <input type="submit" value="image"></p>
+  </form>
+</c:when>
+</c:choose>
+
+  <c:choose>
+<c:when test="${isAdmin==0||isAdmin==null }">
+<h1>You do not have access to this page.</h1>
+</c:when>
+</c:choose>
+</div>
 </body>
 </html>

@@ -14,34 +14,36 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+
 </head>
  
 
 <body>
+<div class=list>
 <form action="createdegree.jsp" method="post">
-	Name To Appear On Degree:<br>
-	<input type="text" name="name" size="30"><br>
-	University:
+	<p>Name To Appear On Degree:<br>
+	<input type="text" name="name" size="30"></p>
+	<p>University:
 	<select name="university">		
 		<c:forEach var="row" items="${uniList.rows}">
 		<option value="${row.name}">${row.name}</option>
 		</c:forEach>
-	</select><br>
-	Discipline:
+	</select></p>
+	<p>Discipline:
 	<select name="discipline">		
 		<c:forEach var="row" items="${discList.rows}">
 		<option value="${row.name}">${row.name}</option>
 		</c:forEach>
-	</select><br>
-  With Honors:
+	</select></p>
+ <p> With Honors:
   <input type="radio" name="honours" value="yes"> Yes
-  <input type="radio" name="honours" value="no" checked="checked"> No<br>
-  With Distinction:
+  <input type="radio" name="honours" value="no" checked="checked"> No</p>
+  <p>With Distinction:
   <input type="radio" name="distinction" value="yes"> Yes
-  <input type="radio" name="distinction" value="no" checked="checked"> No<br>
+  <input type="radio" name="distinction" value="no" checked="checked"> No</p>
 	
-  <input type="submit" value="Create Degree">
+  <p><input type="submit" value="Create Degree"></p>
 </form>
-
+</div>
 </body>
 </html>

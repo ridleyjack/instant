@@ -6,7 +6,7 @@
 <html>
 
 <head>
-
+<link href="css/bootstrap.min.css" rel="stylesheet">
 <style>
 form{
 text-align: center;
@@ -56,9 +56,9 @@ if (session.getAttribute("loginMessage") != null)
 	User Name:<br>
 	<input type="text" name="username" ><br>
 	Password:<br>
-	<input type="text" name="password" ><br>
+	<input type="password" name="password" ><br>
 	Confirm Password:<br>
-	<input type="text" name="password2" ><br>
+	<input type="password" name="password2" ><br>
 	Full Name:<br>
 	<input type="text" name="name" ><br>
 	Email:<br>

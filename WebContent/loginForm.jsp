@@ -15,10 +15,11 @@ padding-top: 10px;
 </style>
 
 <title>login</title>
+
 </head>
 
 <body>
-
+<div class=list>
 <%
 // Print prior error login message if present (from sample code)
 if (session.getAttribute("loginMessage") != null){
@@ -28,15 +29,15 @@ if (session.getAttribute("loginMessage") != null){
 %>
 
 <form id="loginForm" method="post" action="login.jsp">
-	User name:<br>
-	<input type="text" name="username"><br>
-	Password:<br>
-	<input type="password" name="password"><br><br>
+	<p>User name:<br>
+	<input type="text" name="username"></p>
+	<p>Password:<br>
+	<input type="password" name="password"><br></p>
 	<input type="submit" value="login">
 </form>
 <form id="createAcc" action="createAccountForm.jsp">
 	<input type="submit" value="Create Account">
 </form>
-
+</div>
 </body>
 </html>

@@ -19,7 +19,7 @@ String updateQty = request.getParameter("updateQty");
 
 @SuppressWarnings({"unchecked"})
 HashMap<String, ArrayList<Object>> productList = (HashMap<String, ArrayList<Object>>) session.getAttribute("productList");
-
+System.out.println("check1");
 //If null create new shopping cart
 if (productList == null)
 {	
@@ -59,7 +59,7 @@ if (updateId != null && updateQty != null){
 }
 
 //Add all the products in the shopping cart to an arraylist of hashmaps
-
+System.out.println("check2");
 NumberFormat currFormat = NumberFormat.getCurrencyInstance();
 Iterator<Map.Entry<String, ArrayList<Object>>> iterator = productList.entrySet().iterator();
 ArrayList< HashMap<String, Object> > mappedProduct = new ArrayList<>();
@@ -80,7 +80,9 @@ while (iterator.hasNext()) {
 	//Grab product information
 	String id = product.get(0).toString();
 	String pname = product.get(1).toString();
+	System.out.println("83");
 	String priceStr = product.get(2).toString();
+	System.out.println("85");
 	String quantityStr = product.get(3).toString();
 	double price = 0;
 	int quantity = 0;
@@ -117,7 +119,7 @@ while (iterator.hasNext()) {
 
 ArrayList< HashMap<String, Object> > mappedDegree = new ArrayList<>();
 iterator = degreeList.entrySet().iterator();
-
+System.out.println("check3");
 //Iterate through all the degrees.. Create little hashmaps representing the degrees.. add them to our Arraylist of degrees
 double degreeTotal = 0;
 while(iterator.hasNext()){

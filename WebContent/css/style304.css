@@ -1,0 +1,115 @@
+body{
+    font-family: sans-serif;
+    background-color: lightblue;
+    
+}
+.list table{
+    border-bottom: 1px solid #ddd;
+    padding: 5px;
+}
+.list th{
+    background-color: lightgreen;
+    color:black;
+    font-weight: bold;
+    padding: 10px;
+}
+.list tr:nth-child(even){
+    background-color: #f2f2f2; 
+}
+.list tr:nth-child(odd){
+    background-color: #fff; 
+}
+.list tr:hover{
+    background-color: #ddd
+}
+.list td,th{
+    border: 1px solid #ddd
+        padding:8px;
+    
+}
+.list{padding-top: 10px;
+}
+.list form{
+    background-color: lightblue;
+    padding:5px;
+}
+.header body {
+
+	background-repeat:no-repeat;
+	background-align:center;
+	
+}
+
+.header {
+    
+    background-image:url("../Images/Graduation.jpeg");
+    width:100%;
+    height: 100%;
+    background-size:cover;
+
+
+}
+.header p{
+    color:white;
+}
+
+.header #navigation{
+    border-collapse: collapse;
+    width: 100%;
+    text-align:center;
+    text-color:#ffffff;
+    background-color:#020230
+}
+
+.header #logoSlogan{
+	border-collapse: collapse;
+	width:100%;
+	//backgroud-color: #000066;
+}
+
+
+.header #navigation, #navigation th, #navigation td {
+    border: 1px solid #020230;
+    background-color: #020230;
+}
+.admin table{
+    width:100%;
+    color:white;
+}
+.admin tr{
+    width: 100%;
+
+}
+.admin th{
+    border-radius: 10px;
+    border: 2px solid #000066;
+    background-color: #6666ff;
+    color:white;
+    padding:10px;
+
+}
+.admin a {
+    color:orange;
+}
+.admin h1{
+   text-align: center;
+}
+
+.list input{
+    text-align: center;
+
+}
+.list form{
+    text-align: center;
+
+
+}
+.list p{
+    padding: 3px;
+    text-align: center;
+   
+   vertical-align: left;
+}
+.list h1{
+    text-align: center;
+}
