@@ -28,7 +28,7 @@ try(Connection con = Database.getConnection()){
 catch(SQLException ex){ out.print(ex);}
 
 %>
-
+<div class=list>
 <form action="listprod.jsp" method=get>
 	Category:	
 	<select name="category">
@@ -38,11 +38,11 @@ catch(SQLException ex){ out.print(ex);}
 		</c:forEach>
 	</select>
 	Name:
-	<input type="text" name="productName" size="50"><br>
+	<input type="text" name="productName" size="50">
 	<input type="submit" value="Show Products">
 </form> 
 
-<table>
+<table align="center">
 	<tr>
 		<th>Image</th><th>Name</th><th>Category</th><th>Description</th><th>Price</th><th>Points</th>
 	</tr>
@@ -59,6 +59,6 @@ catch(SQLException ex){ out.print(ex);}
         </tr>
     </c:forEach>
 </table>
-
+</div>
 </body>
 </html>
