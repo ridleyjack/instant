@@ -2,9 +2,10 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.sql.*" %>    
 <%@ page import="java.util.ArrayList" %>  
-<%@ page import="ridleyjack.insta.data.Database" %> 
+ 
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>  
 <%@ page import="javax.servlet.jsp.jstl.sql.ResultSupport" %>  
+      <%@include file="../database.jsp" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -17,7 +18,7 @@
 </body>
 </html>
 <%
-try(Connection con = Database.getConnection()){
+try(Connection con = getConnection()){
 	PreparedStatement list = con.prepareStatement("SELECT A.*,C.* FROM Account A, Customer C WHERE A.accountId=C.accountId");
 	ResultSet rst = list.executeQuery();
 	Result cust = ResultSupport.toResult(rst);

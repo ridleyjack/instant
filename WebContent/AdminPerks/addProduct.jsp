@@ -2,9 +2,10 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.sql.*" %>    
 <%@ page import="java.util.ArrayList" %>  
-<%@ page import="ridleyjack.insta.data.Database" %> 
+
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>  
 <%@ page import="javax.servlet.jsp.jstl.sql.ResultSupport" %>  
+    <%@include file="../database.jsp" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -52,7 +53,7 @@ try{points = Integer.parseInt(pointValue);}
 catch(Exception e){out.print("Enter a Valid Point Value");return;}
 
 
-try(Connection con = Database.getConnection()){
+try(Connection con = getConnection()){
 
 try{PreparedStatement cat = con.prepareStatement("SELECT categoryId FROM ProductCategory WHERE catName = ?");
 cat.setString(1, category);

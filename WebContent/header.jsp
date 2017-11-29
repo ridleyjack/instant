@@ -50,7 +50,7 @@ else{
 <form>
 	<table id="logoSlogan">
 	<tr>
-	<td><a href="index.jsp"><img src="<c:url value="/Images/LogoWebsite.png"/>" width="573" height="222" /></a></td>
+	<td><a href="index.jsp"><img src="${pageContext.request.contextPath}/Images/LogoWebsite.png" width="573" height="222" /></a></td>
 	<td><h1 style="text-align:right; vertical-align:bottom; font-family:Verdana; color:#ffffff">The Fastest Way To Graduate!</h1></td>
 	</tr>
 	</table>
@@ -59,11 +59,18 @@ else{
 <form>
 	<table id="navigation">
 	<tr>
+	<!--
 	<td><a href="index.jsp"><img src="<c:url value="/Images/HomeButton.jpg"/>" width="86" height="40" /></a></td>
 	<td><a href="createdegree.jsp"><img src="<c:url value="/Images/MakeaDegreeButton.jpg"/>" width="194" height="40" /></a></td>
 	<td><a href="listprod.jsp"><img src="<c:url value="/Images/ProductsButton.jpg"/>" width="123" height="40" /></a></td>
 	<td><a href="showcart.jsp"><img src="<c:url value="/Images/CartButton.jpg"/>" width="73" height="40" /></a></td>
 	<td><a href="account.jsp"><img src="<c:url value="/Images/AccountButton.jpg"/>" width="117" height="40" /></a></td>
+	-->
+	<td><a href="index.jsp"><img src="${pageContext.request.contextPath}/Images/HomeButton.jpg" width="86" height="40" /></a></td>
+	<td><a href="createdegree.jsp"><img src="${pageContext.request.contextPath}/Images/MakeaDegreeButton.jpg" width="194" height="40" /></a></td>
+	<td><a href="listprod.jsp"><img src="${pageContext.request.contextPath}/Images/ProductsButton.jpg" width="123" height="40" /></a></td>
+	<td><a href="showcart.jsp"><img src="${pageContext.request.contextPath}/Images/CartButton.jpg" width="73" height="40" /></a></td>
+	<td><a href="account.jsp"><img src="${pageContext.request.contextPath}/Images/AccountButton.jpg" width="117" height="40" /></a></td>
 	</tr>
 	</table>
 </form>

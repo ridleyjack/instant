@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
     
 <%@ page import="java.sql.*" %> 
-<%@ page import="ridleyjack.insta.data.Database" %> 
+<%@include file="database.jsp" %>
 
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Iterator" %>
@@ -15,7 +15,8 @@ final double taxRate = 0.12;
 final double shipCost_Per_Item = 6.50;
 
 if( session.getAttribute("authenticatedUser") == null || session.getAttribute("authenticatedUserId") == null){
-	out.print("Please Log In");
+	session.setAttribute("loginMessage", "Please Log In Before Checking Out!");
+	response.sendRedirect("loginForm.jsp");
 	return;
 }
 
@@ -33,7 +34,7 @@ if (productList == null)
 if (degreeList == null)
 	degreeList = new HashMap<String, ArrayList<Object>>();
 
-try(Connection con = Database.getConnection()){
+try(Connection con = getConnection()){
 	
 	NumberFormat currFormat = NumberFormat.getCurrencyInstance();
 	Iterator<Map.Entry<String, ArrayList<Object>>> iterator = productList.entrySet().iterator();
@@ -133,6 +134,8 @@ try(Connection con = Database.getConnection()){
 		int stock = amount.getInt("amount"); //Returns 0 if sql value is null which is what we want.
 		
 		productOrder.put("productId", id);
+		productOrder.put("name", pname);
+		
 		if(stock == 0){
 			productOrder.put("amount", "0");
 			productOrder.put("message", "Out Of Stock!");	
@@ -140,12 +143,12 @@ try(Connection con = Database.getConnection()){
 		}
 		else if(quantity > stock){
 			productOrder.put("amount", Integer.toString(stock));
-			productOrder.put("message", "Low On Stock! Order Reduced to " + stock);
+			productOrder.put("message", "Low On Stock, Order Reduced to " + stock +"!");
 			quantity = stock;
 		}
 		else { //if quantity < stock
 			productOrder.put("amount", Integer.toString(quantity));
-			productOrder.put("message", "In Stock");
+			productOrder.put("message", "In Stock!");
 		}
 		
 		productsInOrder.add(productOrder);
@@ -185,8 +188,7 @@ try(Connection con = Database.getConnection()){
 	//Shipment Information
 	session.setAttribute("productsInOrder", productsInOrder);
 	session.setAttribute("orderTotalCost", purchaseTotal);
-	session.setAttribute("orderTotalPoint", pointTotal);
-	
+	session.setAttribute("orderTotalPoint", pointTotal);		
 	//User information
 	request.setAttribute("userId", userId);
 	request.setAttribute("username", username);

@@ -2,9 +2,10 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.sql.*" %>    
 <%@ page import="java.util.ArrayList" %>  
-<%@ page import="ridleyjack.insta.data.Database" %> 
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>  
 <%@ page import="javax.servlet.jsp.jstl.sql.ResultSupport" %>  
+
+<%@include file="database.jsp" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -22,7 +23,7 @@ String category =  request.getParameter("category");
 String nameLike = request.getParameter("productName");
 
 //load products from database
-try(Connection con = Database.getConnection()){
+try(Connection con = getConnection()){
 	PreparedStatement getProducts = null;
 	
 	if(category==null || category.equals("all")){

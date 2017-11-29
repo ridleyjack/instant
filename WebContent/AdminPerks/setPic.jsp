@@ -2,10 +2,10 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.sql.*" %>    
 <%@ page import="java.util.ArrayList" %>  
-<%@ page import="ridleyjack.insta.data.Database" %> 
+ 
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>  
 <%@ page import="javax.servlet.jsp.jstl.sql.ResultSupport" %>  
-
+  <%@include file="../database.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -33,7 +33,7 @@ if(imageName.equals("")){
 	out.print("Enter an image Name");
 	return;
 }
-try(Connection con = Database.getConnection()){
+try(Connection con = getConnection()){
 
 	
 	try{PreparedStatement prodId = con.prepareStatement("SELECT productId FROM Product WHERE pname = ?");
@@ -57,13 +57,15 @@ while(rst.next()){
 }
 }catch(SQLException e){out.print("No such image Found");
 return;}
-
+if(imageId!=-1||prod!=-1){
 PreparedStatement change = con.prepareStatement("Update Product Set imageId = ? Where productId = ?");
 change.setInt(1, imageId);
 change.setInt(2, prod);
 change.executeUpdate();
 out.print("Image Updated");
-
+}else{
+   out.print("no such product or image found");
+   }
 
 }catch(SQLException e){
 	out.print(e);

@@ -3,7 +3,7 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.sql.*" %>    
-<%@ page import="ridleyjack.insta.data.Database" %> 
+<%@include file="database.jsp" %>
    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -31,7 +31,7 @@ String name = "Invalid";
 String price = "Invalid";
 String point = "Invalid";
 
-try(Connection con = Database.getConnection()){
+try(Connection con = getConnection()){
 	PreparedStatement getProd = con.prepareStatement("SELECT * FROM Product Where productId=?");
 	getProd.setString(1, id);
 	ResultSet product = getProd.executeQuery();

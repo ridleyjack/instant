@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 
 <%@ page import="java.sql.*" %>    
-<%@ page import="ridleyjack.insta.data.Database" %> 
+
 
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Iterator" %>
@@ -10,10 +10,11 @@
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Map" %>
 
+<%@include file="database.jsp" %>
 <%
 String userId = null;
 
-try(Connection con = Database.getConnection()){	
+try(Connection con = getConnection()){	
 	//check if user is signed in
 	if (session.getAttribute("authenticatedUserId") == null || session.getAttribute("authenticatedUser") == null){
 		request.setAttribute("loginMessage", "Please Log In First");
@@ -186,10 +187,6 @@ try(Connection con = Database.getConnection()){
 		orderTotal = -1;
 		pointTotal = -1;
 	}
-	
-	System.out.println(orderTotal);
-	System.out.println(pointTotal);
-	System.out.println(orderId);
 	
 	orderTotal *= 100;
 	orderTotal = Math.round(orderTotal);

@@ -3,7 +3,7 @@
     
 <%@ page import="java.sql.*" %>    
 <%@ page import="java.util.ArrayList" %>  
-<%@ page import="ridleyjack.insta.data.Database" %> 
+  <%@include file="../database.jsp" %>
 
 <%@ page import="org.apache.commons.fileupload.FileUpload, org.apache.commons.fileupload.servlet.ServletFileUpload, org.apache.commons.fileupload.FileItem, org.apache.commons.fileupload.disk.DiskFileItemFactory"%>
 <%@ page import="java.util.List"%>
@@ -68,7 +68,7 @@ try
 				return;
 			}
 			//same name check
-			Connection con = Database.getConnection();
+			Connection con = getConnection();
 			PreparedStatement getImage = con.prepareStatement("SELECT imageId FROM Image WHERE fileName=?");
 			getImage.setString(1, baseName);
 			ResultSet image = getImage.executeQuery();

@@ -2,13 +2,13 @@
     pageEncoding="ISO-8859-1"%>
     
 <%@ page import="java.sql.*" %> 
-<%@ page import="ridleyjack.insta.data.Database" %> 
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>  
 <%@ page import="javax.servlet.jsp.jstl.sql.ResultSupport" %> 
   
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%@include file="header.jsp" %>
+<%@include file="database.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -18,9 +18,10 @@
 </head>
 
 <body>
+    <div class=list>
 <%
 //grab categories from database
-try(Connection con = Database.getConnection()){
+try(Connection con = getConnection()){
 	ResultSet cat = con.createStatement().executeQuery("Select categoryId, catName From ProductCategory");
 	Result cats = ResultSupport.toResult(cat);
 	request.setAttribute("categories", cats);	
@@ -59,6 +60,6 @@ catch(SQLException ex){ out.print(ex);}
         </tr>
     </c:forEach>
 </table>
-
+    </div>
 </body>
 </html>

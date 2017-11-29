@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
     
 <%@ page import="java.sql.*" %>    
-<%@ page import="ridleyjack.insta.data.Database" %> 
+<%@include file="database.jsp" %>
 
 <!-- For JSTL Tags -->
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>  
@@ -16,7 +16,7 @@ if(productId == null){
 	return;
 	//response.sendRedirect("addcart.jsp");
 }
-try(Connection con = Database.getConnection()){
+try(Connection con = getConnection()){
 	
 	PreparedStatement getProduct = con.prepareStatement("SELECT P.*, Sum(SP.amount) as amount FROM Product P LEFT JOIN  StoresProduct SP ON P.productId = SP.productId WHERE P.productId = ? GROUP BY SP.productId");
 	getProduct.setString(1, productId);

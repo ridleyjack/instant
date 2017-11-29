@@ -2,16 +2,16 @@
     pageEncoding="ISO-8859-1"%>
     
 <%@ page import="java.sql.*" %> 
-<%@ page import="ridleyjack.insta.data.Database" %> 
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>  
 <%@ page import="javax.servlet.jsp.jstl.sql.ResultSupport" %> 
 <%@ page import="java.text.NumberFormat" %> 
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.ArrayList" %>
-        
+
+<%@include file="database.jsp" %>        
 <%
 	//Load all Universites and Disciplines, then redirect to form if no arguments.
-	try(Connection con = Database.getConnection()){
+	try(Connection con = getConnection()){
 		PreparedStatement getDisc = con.prepareStatement("SELECT * FROM Discipline");
 		PreparedStatement getUni = con.prepareStatement("SELECT * FROM University");
 		//Get results of Queries, but change results to jstl result.
@@ -49,7 +49,7 @@
 
 	//Add the template for the created Degree to the database.
 	int degreeId = -1;
-	try(Connection con = Database.getConnection()){
+	try(Connection con = getConnection()){
 		int userId = -1;
 		//get usersId
 		PreparedStatement grabId = con.prepareStatement("Select accountId From Account Where loginName=?");

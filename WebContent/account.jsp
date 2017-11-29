@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
     
 <%@ page import="java.sql.*" %>    
-<%@ page import="ridleyjack.insta.data.Database" %> 
+<%@include file="database.jsp" %>
 
 <!-- For JSTL Tags -->
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>  
@@ -10,15 +10,24 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%
+
+if(session.getAttribute("authenticatedUserId") == null){
+	session.setAttribute("loginMessage", "Please Log In For Account Info");
+	response.sendRedirect("loginForm.jsp");
+	return;
+}
+
 String userId = session.getAttribute("authenticatedUserId").toString();
 Integer id = null;
+
 try{
 	id = Integer.parseInt(userId);
 }catch(Exception e){
-	out.print("Login for Account Info");
+	session.setAttribute("loginMessage", "Please reLogin In For Account Info, Could not read account Id");
+	response.sendRedirect("loginForm.jsp");
 	return;
 }
-try(Connection con = Database.getConnection()){
+try(Connection con = getConnection()){
 	PreparedStatement orders = con.prepareStatement("SELECT CO.*,S.*,cname FROM CustomerOrder CO, Shipment S, Account WHERE CO.orderId = S.orderId AND CO.accountId=Account.accountId AND Account.accountId=?");
 	orders.setInt(1, id);
 	ResultSet rst = orders.executeQuery();

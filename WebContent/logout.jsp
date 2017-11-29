@@ -30,7 +30,7 @@ session.setAttribute("orderTotalPoint", null);
 
 //Clear user information
 session.setAttribute("authenticatedUser", null);
-session.setAttribute("authenticatedUser", null);
+session.setAttribute("authenticatedUserId", null);
 session.setAttribute("isAdmin",null);
 
 

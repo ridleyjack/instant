@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
  
 <%@ page import="java.sql.*" %> 
-<%@ page import="ridleyjack.insta.data.Database" %> 
+
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>  
 <%@ page import="javax.servlet.jsp.jstl.sql.ResultSupport" %> 
   

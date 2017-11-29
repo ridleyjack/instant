@@ -38,5 +38,23 @@ input[type=number]{
 	<b>CreditCard Number:</b><input type="number" value="" min="13" max="19"><br>
 	<input type="submit" value="Make Purchase"/>
 </form>
+
+
+<div class=list>
+<table>
+	<tr>
+		<th>Id</th><th>Name</th><th>Amount In Order</th><th>Message</th>
+	</tr>
+    <c:forEach var="row" items="${productsInOrder}">
+        <tr>
+            <td><c:out value="${row.productId}" /></td>
+            <td><c:out value="${row.name}" /></td>
+            <td><c:out value="${row.amount}" /></td>
+            <td><c:out value="${row.message}" /></td>
+        </tr>
+    </c:forEach>
+</table>
+</div>
+
 </body>
 </html>

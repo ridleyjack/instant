@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.sql.*" %>
-<%@ page import="ridleyjack.insta.data.Database" %>
-<%@ page import="ridleyjack.insta.util.Security" %>
 
+<%@include file="database.jsp" %>
+<%@include file="security.jsp" %>
 <%@include file="header.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -18,11 +18,11 @@
 
 <%
 String username = request.getParameter("username");
-String password = Security.genhash_SHA256(request.getParameter("password"));
+String password = genhash_SHA256(request.getParameter("password"));
 
 session = request.getSession();
 
-try(Connection con = Database.getConnection()){
+try(Connection con = getConnection()){
 	//Try and find username + password in database
 	String sql = "Select password, accountId, adminLevel From Account Where loginName=? and password=?";
 	PreparedStatement stmt = con.prepareStatement(sql);

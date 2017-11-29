@@ -1,7 +1,9 @@
 <%@ page import="java.sql.*" %>
-<%@ page import="ridleyjack.insta.data.Database" %>
-<%@ page import="ridleyjack.insta.util.Security" %>
+
+<%@include file="database.jsp" %>
+<%@include file="security.jsp" %>
 <%@include file="header.jsp" %>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -38,12 +40,12 @@ if(street.length()<4 || city.length()<4||postalCode.length()!=6){
 int type = Integer.parseInt(request.getParameter("type"));
 
 //hash the password
-String password = Security.genhash_SHA256(request.getParameter("password"));
+String password = genhash_SHA256(request.getParameter("password"));
 
 //TODO: validate input here
 
 //Create the account
-try(Connection c = Database.getConnection();){
+try(Connection c = getConnection()){
 	int id = -1;
 	//Create general Account
 	PreparedStatement stmt = c.prepareStatement("Insert Into Account(loginName, password, creationDate, lastLogin, cname, email, isDeactivated, adminLevel)"

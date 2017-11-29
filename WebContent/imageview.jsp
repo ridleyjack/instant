@@ -2,11 +2,11 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.sql.*" %>    
 <%@ page import="java.util.ArrayList" %>  
-<%@ page import="ridleyjack.insta.data.Database" %> 
+<%@include file="database.jsp" %>
 
 <%@ page trimDirectiveWhitespaces="true" import="java.sql.*,java.io.*" %>
 <%
-try ( Connection con = Database.getConnection();) 
+try ( Connection con = getConnection()) 
 {
 	//Indicate that we are sending a JPG picture
 	response.setContentType("image/jpeg");  	
