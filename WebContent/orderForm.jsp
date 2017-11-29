@@ -14,7 +14,11 @@
 </head>
 <body>
 
-<sql:query var="shipment" dataSource="jdbc/db_settings">
+      <sql:setDataSource var = "database" driver = "com.mysql.jdbc.Driver"
+         url = "jdbc:mysql://cosc304.ok.ubc.ca/db_jjackson"
+         user = "jjackson"  password = "86696549"/>
+
+<sql:query var="shipment" dataSource="${database}">
     Select Shipment.*, Address.city From Shipment, Address Where Address.addressId = Shipment.addressId AND orderId=${param.orderId};
 </sql:query>
     
@@ -31,7 +35,7 @@
 		</tr>     
 				
 		<tr><td colspan="6">		
-		<sql:query var="product" dataSource="jdbc/db_settings">
+		<sql:query var="product" dataSource="${database}">
 			Select * From OrderedProduct, Product, Warehouse Where Warehouse.warehouseId = OrderedProduct.wareHouseId And OrderedProduct.productId = Product.productId And shipmentId=${row.shipmentId};
 		</sql:query>
 						
@@ -51,7 +55,7 @@
 		</c:forEach>							      	
 		</table>	
 		
-		<sql:query var="degree" dataSource="jdbc/db_settings">
+		<sql:query var="degree" dataSource="${database}">
 			Select * From DegreeOrder Where shipmentId=${row.shipmentId};
 		</sql:query>
 		

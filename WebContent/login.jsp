@@ -17,10 +17,14 @@
 </html>
 
 <%
+if(request.getParameter("password") == null || request.getParameter("password")==""){
+	session.setAttribute("loginMessage", "Please enter a password!");
+	response.sendRedirect("loginForm.jsp");
+	return;
+}
+
 String username = request.getParameter("username");
 String password = genhash_SHA256(request.getParameter("password"));
-
-session = request.getSession();
 
 try(Connection con = getConnection()){
 	//Try and find username + password in database
@@ -35,14 +39,13 @@ try(Connection con = getConnection()){
 		session.setAttribute("authenticatedUser", username);
 		session.setAttribute("authenticatedUserId", rslt.getString("accountId"));
 		session.setAttribute("isAdmin", rslt.getInt("adminLevel"));
-		session.setAttribute("loginMessage", "Login Successfull!");
+		session.setAttribute("loginMessage", "Login Successful!");
 		response.sendRedirect("loginForm.jsp");
 	}
 	else{ //not found
 		session.setAttribute("loginMessage", "Invalid Username or Password!");
 		response.sendRedirect("loginForm.jsp");//go back to login form		
-	}
-	
-}
+	}	
+}catch(SQLException ex){out.print(ex);}
 
 %>

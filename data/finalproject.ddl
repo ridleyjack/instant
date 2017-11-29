@@ -84,7 +84,7 @@ foreign key(imageId) references Image(imageId)
 Create Table CustomerOrder(
 orderId int primary key auto_increment,
 placed date,
-totalCost decimal(8,2),
+totalCost decimal(7,2),
 pointsEarned int,
 accountId int not null,
 foreign key(accountId) References Customer(accountId)

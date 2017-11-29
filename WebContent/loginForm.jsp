@@ -21,13 +21,14 @@ padding-top: 10px;
 <body>
 <div class=list>
 <%
+
+
 // Print prior error login message if present (from sample code)
 if (session.getAttribute("loginMessage") != null){
 	out.println("<p>"+session.getAttribute("loginMessage").toString()+"</p>");
 	session.removeAttribute("loginMessage");
 }
 %>
-
 <form id="loginForm" method="post" action="login.jsp">
 	<p>User name:<br>
 	<input type="text" name="username"></p>
