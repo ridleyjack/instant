@@ -2,6 +2,18 @@
     <wb-module deploy-name="304_project">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="commons-fileupload-1.3.3.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/cosc304_project/WebContent/WEB-INF/lib/commons-fileupload-1.3.3.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="sqljdbc4.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/cosc304_project/WebContent/WEB-INF/lib/sqljdbc4.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jstl-1.2.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/cosc304_project/WebContent/WEB-INF/lib/jstl-1.2.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-io-2.6.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/cosc304_project/WebContent/WEB-INF/lib/commons-io-2.6.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/304_project/build/classes"/>
         <property name="context-root" value="304_project"/>
     </wb-module>

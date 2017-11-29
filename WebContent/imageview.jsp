@@ -12,7 +12,7 @@ try ( Connection con = Database.getConnection();)
 	response.setContentType("image/jpeg");  	
 	//Get the image id
 	String id = request.getParameter("id");
-	if (id == null){
+	if (id == null||id.equals("0")){
 		int BUFFER_SIZE = 10000;
 		byte[] data = new byte[BUFFER_SIZE];
 		InputStream stream = getServletContext().getResourceAsStream("/Images/missing.jpg"); 

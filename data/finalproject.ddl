@@ -56,6 +56,7 @@ foreign key(accountId) References Account(accountId)
 
 Create Table Address(
 addressId int primary key auto_increment,
+typCode varchar(1),
 street varchar(255),
 city varchar(255),
 postalCode char(6),
@@ -225,26 +226,53 @@ primary key (warehouseId, productId),
 foreign key (warehouseId) References Warehouse(warehouseId)
 	on delete cascade on update cascade,
 foreign key(productId) References Product(productId)
-	on delete cascade on update cascade 
+	on update cascade on delete cascade
 );
-
 Insert Into ProductCategory(catName, description, imageId)
-	Values("Clothing", "Things you can wear", null);
+	Values("Hoodies", "Keep you nice and warm!", null);
 SET @lastid = LAST_INSERT_ID();
 Insert Into Product(pname, description, price, pointValue, categoryId, imageId)
-	Values("T-Shirt", "It's a shirt.", 40.50, 500, @lastid, null);	
+	Values("SFU Hoodie", "Sport this SFU hoodie, and trick everyone into thinking you're an alumn!", 35.75, 500, @lastid, null);
 Insert Into Product(pname, description, price, pointValue, categoryId, imageId)
-	Values("Pants", "It's some pants.", 35.75, 500, @lastid, null);
+	Values("UBC Sweatshirt", "Not just the classic blue and yellow, this niche UBC sweatshirt will have people thinking you really made it to the store!", 45.75, 500, @lastid, null);
 Insert Into Product(pname, description, price, pointValue, categoryId, imageId)
-	Values("Hat", "A hat to wear on your head.", 35.75, 500, @lastid, null);
+	Values("TRU Hoodie", "Who are we kidding? Nobody would lie about going to TRU. But just in case, this hoodie will drive the point home!", 30.25, 500, @lastid, null);
 	
 Insert Into ProductCategory(catName, description, imageId)
-	Values("Cups", "Drink out of these", null);
+	Values("Drinkware", "Decorate your drinks as though you earned your degree", null);
 SET @lastid =  LAST_INSERT_ID();
 Insert Into Product(pname, description, price, pointValue, categoryId, imageId)
-	Values("CoffeeMug", "Mug for keeping coffee in", 5.75, 10, @lastid, null);	
+	Values("UVIC Mug", "What do people even drink out in Victoria? You should probably check before ordering this mug.", 5.75, 10, @lastid, null);	
 Insert Into Product(pname, description, price, pointValue, categoryId, imageId)
-	Values("Glass", "A glass", 5.75, 10, @lastid, null);
+	Values("SFU Mug", "With this on your desk, your boss will be sure you actually attended SFU.", 5.75, 10, @lastid, null);
+Insert Into Product(pname, description, price, pointValue, categoryId, imageId)
+	Values("UBC Mug", "Can't you remember all the coffee you drank, up late, studying for exams? Of course you don't!", 35.75, 500, @lastid, null);
+	
+Insert Into ProductCategory(catName, description, imageId)
+	Values("Sports Wear", "Everyone says sports are a part of the University experience. Support your so-called 'school team'!", null);
+SET @lastid = LAST_INSERT_ID();
+Insert Into Product(pname, description, price, pointValue, categoryId, imageId)
+	Values("UVIC Vikes Shirt", "An interesting brand deal with Nike they've got going on out there at UVIC!", 40.50, 500, @lastid, null);	
+Insert Into Product(pname, description, price, pointValue, categoryId, imageId)
+	Values("SFU Sport Shirt", "They couldn't even come up with a team name! It's a good thing you decided not to go to SFU.", 35.75, 500, @lastid, null);
+Insert Into Product(pname, description, price, pointValue, categoryId, imageId)
+	Values("UBC Thunderbirds Shirt", "The crowds, the cheering, the sports! All thing you definitely experience at UBC!", 35.75, 500, @lastid, null);
+Insert Into Product(pname, description, price, pointValue, categoryId, imageId)
+	Values("TRU Wolfpack Shirt", "You were one of the pack. Your shirt even says so!", 35.75, 500, @lastid, null);
+Insert Into Product(pname, description, price, pointValue, categoryId, imageId)
+	Values("UVIC Tee", "This slick will make people think you really attended the University of Victoria!", 40.50, 500, @lastid, null);	
+	
+Insert Into ProductCategory(catName, description, imageId)
+	Values("Gear", "Stuff you 'definitely' kept your notes in back in your University days", null);
+SET @lastid = LAST_INSERT_ID();
+Insert Into Product(pname, description, price, pointValue, categoryId, imageId)
+	Values("UVIC Binder", "It never held any actual notes, but nobody has to know that.", 40.50, 500, @lastid, null);	
+Insert Into Product(pname, description, price, pointValue, categoryId, imageId)
+	Values("SFU Notebook", "This is official SFU standard! Just don't let anyone read it.", 35.75, 500, @lastid, null);
+Insert Into Product(pname, description, price, pointValue, categoryId, imageId)
+	Values("UBC Planner", "You probably would have kept track of all your classes in this! If you'd attended, of course.", 35.75, 500, @lastid, null);
+Insert Into Product(pname, description, price, pointValue, categoryId, imageId)
+	Values("TRU Lab Book", "Labs can be long and gruelling. Aren't you glad you didn't have to do any?", 35.75, 500, @lastid, null);
 
 Insert Into Discipline(name, description)
 	Values("Computer Science", "Bachelor of Science, with a major in Computer Science");
@@ -257,6 +285,12 @@ Insert Into University(name, description, imageId)
 	Values("UBC Okanagan", "A University located in Kelowna", null);
 Insert Into University(name, description, imageId)
 	Values("UBC Vancouver", "A University located in Vancouver", null);
+Insert Into University(name, description, imageId)
+	Values("SFU", "Another University located in Vancouver", null);
+Insert Into University(name, description, imageId)
+	Values("TRU", "A University located in Kamloops", null);
+Insert Into University(name, description, imageId)
+	Values("UVIC", "A University located in Victoria", null);
 
 Insert Into Account
 (loginName, password, creationDate, LastLogin, cname, email, isDeactivated)
@@ -266,40 +300,188 @@ Insert Into Customer(accountId, prizePoints, isWarned, isBanned)
 Values(@lastid, 0, false, false);
 Insert Into Address(typCode, street, city, postalCode, accountId)
 Values(0, "1245 Guest Street NW", "Kelowna", "G1Y4R3", @lastid);
+SET @lastid = LAST_INSERT_ID();
 
-Insert Into Warehouse
-(warehouseId, street, city, postalCode)
-Values(1, "1914 Fake Street", "Kelowna", "R4W7Q1");
+Insert Into Address(addressId , street, city, postalCode, accountId)
+	Values(0, "1245 Guest Street NW", "Kelowna", "G1Y4R3", @lastid);
 
-Insert Into Warehouse
-(warehouseId, street, city, postalCode)
-Values(2, "1939 Real Street", "Prince George", "A8C1T4");
+Insert Into Warehouse(warehouseId, street, city, postalCode)
+	Values(1, "1914 Fake Street", "Kelowna", "R4W7Q1");
 
-select @prodId := productId From Product Where pname ="Pants";  
-Insert Into StoresProduct
-(warehouseId, productId, amount)
-Values(1, @prodId, 10);
+Insert Into Warehouse(warehouseId, street, city, postalCode)
+	Values(2, "1939 Real Boulevard", "Prince George", "A8C1T4");
 
-select @prodId := productId From Product Where pname ="Pants";  
-Insert Into StoresProduct
-(warehouseId, productId, amount)
-Values(2, @prodId, 10);
+Insert Into Warehouse(warehouseId, street, city, postalCode)
+	Values(3, "2765 Indeterminate Avenue", "Vancouver", "Y7S2V8");
 
-select @prodId := productId From Product Where pname ="Hat";  
-Insert Into StoresProduct
-(warehouseId, productId, amount)
-Values(1, @prodId, 50);
+select @prodId := productId From Product Where pname ="SFU Hoodie";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(1, @prodId, 10);
 
-select @prodId := productId From Product Where pname ="Glass";  
-Insert Into StoresProduct
-(warehouseId, productId, amount)
-Values(2, @prodId, 5);
+select @prodId := productId From Product Where pname ="SFU Hoodie";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(2, @prodId, 10);
+	
+select @prodId := productId From Product Where pname ="SFU Hoodie";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(3, @prodId, 20);
 
-select @prodId := productId From Product Where pname="Hat";
+select @prodId := productId From Product Where pname ="SFU Mug";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(1, @prodId, 10);
+
+select @prodId := productId From Product Where pname ="SFU Mug";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(2, @prodId, 5);
+	
+select @prodId := productId From Product Where pname ="SFU Mug";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(3, @prodId, 15);
+	
+select @prodId := productId From Product Where pname ="SFU Sport Shirt";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(1, @prodId, 5);
+	
+select @prodId := productId From Product Where pname ="SFU Sport Shirt";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(2, @prodId, 10);
+	
+select @prodId := productId From Product Where pname ="SFU Sport Shirt";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(3, @prodId, 25);
+	
+select @prodId := productId From Product Where pname ="SFU Notebook";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(3, @prodId, 40);
+	
+select @prodId := productId From Product Where pname ="TRU Hoodie";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(1, @prodId, 10);
+	
+select @prodId := productId From Product Where pname ="TRU Hoodie";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(2, @prodId, 20);
+	
+select @prodId := productId From Product Where pname ="TRU Hoodie";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(3, @prodId, 5);
+	
+select @prodId := productId From Product Where pname ="TRU Lab Book";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(2, @prodId, 20);
+	
+select @prodId := productId From Product Where pname ="TRU Wolfpack Shirt";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(2, @prodId, 30);
+	
+select @prodId := productId From Product Where pname ="TRU Wolfpack Shirt";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(1, @prodId, 10);
+	
+select @prodId := productId From Product Where pname ="TRU Wolfpack Shirt";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(3, @prodId, 5);
+	
+select @prodId := productId From Product Where pname ="UBC Mug";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(1, @prodId, 30);
+		
+select @prodId := productId From Product Where pname ="UBC Mug";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(2, @prodId, 20);
+		
+select @prodId := productId From Product Where pname ="UBC Mug";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(3, @prodId, 50);
+		
+select @prodId := productId From Product Where pname ="UBC Planner";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(1, @prodId, 25);
+		
+select @prodId := productId From Product Where pname ="UBC Planner";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(3, @prodId, 50);
+		
+select @prodId := productId From Product Where pname ="UBC Thunderbirds Shirt";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(1, @prodId, 20);
+			
+select @prodId := productId From Product Where pname ="UBC Thunderbirds Shirt";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(2, @prodId, 5);
+			
+select @prodId := productId From Product Where pname ="UBC Thunderbirds Shirt";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(3, @prodId, 50);
+			
+select @prodId := productId From Product Where pname ="UBC Sweatshirt";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(1, @prodId, 35);
+				
+select @prodId := productId From Product Where pname ="UBC Sweatshirt";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(2, @prodId, 10);
+				
+select @prodId := productId From Product Where pname ="UBC Sweatshirt";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(3, @prodId, 60);
+				
+select @prodId := productId From Product Where pname ="UVIC Binder";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(3, @prodId, 30);
+					
+select @prodId := productId From Product Where pname ="UVIC Mug";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(1, @prodId, 15);
+						
+select @prodId := productId From Product Where pname ="UVIC Mug";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(2, @prodId, 10);
+						
+select @prodId := productId From Product Where pname ="UVIC Mug";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(3, @prodId, 25);
+						
+select @prodId := productId From Product Where pname ="UVIC Vikes Shirt";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(1, @prodId, 10);
+							
+select @prodId := productId From Product Where pname ="UVIC Vikes Shirt";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(2, @prodId, 5);
+							
+select @prodId := productId From Product Where pname ="UVIC Vikes Shirt";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(3, @prodId, 30);
+							
+select @prodId := productId From Product Where pname ="UVIC Tee";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(1, @prodId, 30);
+	
+select @prodId := productId From Product Where pname ="UVIC Tee";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(2, @prodId, 20);
+								
+select @prodId := productId From Product Where pname ="UVIC Tee";  
+Insert Into StoresProduct(warehouseId, productId, amount)
+	Values(3, @prodId, 45);
+	
+select @prodId := productId From Product Where pname="SFU Hoodie";
+select @accountId := accountId From Account Where loginName="guest";
 Insert Into Review( description, rating, accountId, productId)
-Values("I like to wear the hat on my head", 4, 1, @prodId);
+Values("People really think I went there! Great Product!", 4,1 , @prodId);
 
-select @prodId := productId From Product Where pname="Hat";
+select @prodId := productId From Product Where pname="UVIC Tee";
+select @accountId := accountId From Account Where loginName="guest";
 Insert Into Review( description, rating, accountId, productId)
-Values("I do not like to wear the hat on my head", 1, 1, @prodId);
+Values("Good product, bad University.", 2,1, @prodId); 
+
+Insert Into Account
+(loginName, password, creationDate, LastLogin, cname, email, isDeactivated,adminLevel)
+Values("beans", "5sPaWyBmNNfz81htdH/9s2tcZ1dXs4DGpf5cVwxxQ0k=", DATE('2017-11-19'), DATE('2017-11-19'), "bean", "guest@email.com", false,1);
+SET @lastid = LAST_INSERT_ID();
+Insert Into Customer(accountId, prizePoints, isWarned, isBanned)
+Values(@lastid, 0, false, false);
+Insert Into Address(typCode, street, city, postalCode, accountId)
+Values(0, "1245 Guest Street NW", "Kelowna", "G1Y4R3", @lastid);
 

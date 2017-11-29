@@ -54,7 +54,7 @@ catch(SQLException ex){ out.print(ex);}
             <td><c:out value="${row.description}" /></td>
             <td><c:out value="${row.price}" /></td>
             <td><c:out value="${row.pointvalue}" /></td>
-            <td><a href=addcart.jsp?id=${row.productId}&name=${row.pname}&price=${row.price}&point=${row.pointvalue}>Add To Cart</a></td>
+            <td><a href=addcart.jsp?id=${row.productId}>Add To Cart</a></td>
             <td><a href=productDetail.jsp?id=${row.productId}>Product Details</a></td>
         </tr>
     </c:forEach>

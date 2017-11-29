@@ -28,30 +28,23 @@ try
 	{	out.println("Error. Expecting multi-part HTML file upload.");
 		return;
 	}
-
 	// Create a factory for disk-based file items
 	DiskFileItemFactory factory = new DiskFileItemFactory();
-
 	// Configure a repository (to ensure a secure temp location is used)
 	ServletContext servletContext = this.getServletConfig().getServletContext();
 	File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
 	factory.setRepository(repository);
-
 	// Create a new file upload handler
 	ServletFileUpload upload = new ServletFileUpload(factory);
 	
     // If file size exceeds 10 MB, a FileUploadException will be thrown
     upload.setSizeMax(10000000);
-
 	boolean saveToDB = true;
-
     List<FileItem> fileItems = upload.parseRequest(request);
     Iterator<FileItem> itr = fileItems.iterator();
-
 	while (itr.hasNext()) 
 	{
 		FileItem fi = (FileItem) itr.next();
-
 		// Check if not form field so as to only handle the file inputs
 		// else condition handles the submit button input
 		if (!fi.isFormField()) 
@@ -86,11 +79,9 @@ try
 			
 			localName = application.getRealPath("/") + baseName;
 			int fileSize = (int) fi.getSize();
-
 			if (!saveToDB) 
 			{
 				//out.print("<H3>Remote name: " + fi.getName() + " Local name: " + localName + "  Size: " + fileSize + "</H3>");
-
 				File fNew = new File(localName);
 				fi.write(fNew);
 			} 
@@ -103,7 +94,6 @@ try
 				// id int IDENTITY PRIMARY KEY NOT NULL ,
 				// fileName VARCHAR(100),
 				// fileData image );
-
 				String stmtSQL = "INSERT INTO Image (fileName, imageData) VALUES (?,?);";
 				PreparedStatement stmt = con.prepareStatement(stmtSQL);
 				stmt.setString(1, baseName);
@@ -137,10 +127,8 @@ private String stripClientPath(String s)
 {	// Strips the client path from a filename and returns only the filename itself
 	if (s==null)
 		return null;
-
 	String filepath = null;
 	String filename = null;
-
 	int pos = s.lastIndexOf('\\');		// Search for last \
 	if (pos >= 0)
 	{

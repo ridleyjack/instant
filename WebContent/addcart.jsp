@@ -2,7 +2,9 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.ArrayList" %>
-    
+<%@ page import="java.sql.*" %>    
+<%@ page import="ridleyjack.insta.data.Database" %> 
+   
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -24,9 +26,26 @@ if (productList == null)
 //Add new product selected
 //Get product information
 String id = request.getParameter("id");
-String name = request.getParameter("name");
-String price = request.getParameter("price");
-String point = request.getParameter("point");
+
+String name = "Invalid";
+String price = "Invalid";
+String point = "Invalid";
+
+try(Connection con = Database.getConnection()){
+	PreparedStatement getProd = con.prepareStatement("SELECT * FROM Product Where productId=?");
+	getProd.setString(1, id);
+	ResultSet product = getProd.executeQuery();
+	
+	if(!product.next()){
+		out.print("Item with Id:" + id + " not found");
+	}
+	
+	name = product.getString("pname");
+	price = product.getString("price");
+	point = product.getString("pointValue");	
+}
+catch(SQLException ex) {out.print(ex); return;}
+
 Integer quantity = new Integer(1);
 
 //Store product information in an ArrayList
