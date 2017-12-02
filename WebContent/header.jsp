@@ -16,8 +16,8 @@ else{
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-<link href="css/style304.css" rel="stylesheet">
+<title>INSTANT DEGREE - Customize and control YOUR education</title>
+<link href="${pageContext.request.contextPath}/css/style304.css" rel="stylesheet">
 
 </head>
 
@@ -29,7 +29,7 @@ else{
 <div class="header">
 <c:choose>
 <c:when test= "${isAdmin==1 }">
- <p>Admin Page: <a href="./AdminPerks/admin.jsp"> private</a></p>
+ <p>Admin Page: <a href="${pageContext.request.contextPath}/AdminPerks/admin.jsp"> private</a></p>
 </c:when>
 </c:choose>
 <c:choose>
@@ -43,7 +43,7 @@ else{
     </c:when>
     <c:otherwise>
         <p style="text-align:right">Logged In: <b><c:out value="${username}"/></b>
-        <a href="logout.jsp">Log Out</a></p>
+        <a href="${pageContext.request.contextPath}/logout.jsp">Log Out</a></p>
     </c:otherwise>      
 </c:choose>
 
@@ -66,11 +66,11 @@ else{
 	<td><a href="showcart.jsp"><img src="<c:url value="/Images/CartButton.jpg"/>" width="73" height="40" /></a></td>
 	<td><a href="account.jsp"><img src="<c:url value="/Images/AccountButton.jpg"/>" width="117" height="40" /></a></td>
 	-->
-	<td><a href="index.jsp"><img src="${pageContext.request.contextPath}/Images/HomeButton.jpg" width="86" height="40" /></a></td>
-	<td><a href="createdegree.jsp"><img src="${pageContext.request.contextPath}/Images/MakeaDegreeButton.jpg" width="194" height="40" /></a></td>
-	<td><a href="listprod.jsp"><img src="${pageContext.request.contextPath}/Images/ProductsButton.jpg" width="123" height="40" /></a></td>
-	<td><a href="showcart.jsp"><img src="${pageContext.request.contextPath}/Images/CartButton.jpg" width="73" height="40" /></a></td>
-	<td><a href="account.jsp"><img src="${pageContext.request.contextPath}/Images/AccountButton.jpg" width="117" height="40" /></a></td>
+	<td><a href="${pageContext.request.contextPath}/index.jsp"><img src="${pageContext.request.contextPath}/Images/HomeButton.jpg" width="86" height="40" /></a></td>
+	<td><a href="${pageContext.request.contextPath}/createdegree.jsp"><img src="${pageContext.request.contextPath}/Images/MakeaDegreeButton.jpg" width="194" height="40" /></a></td>
+	<td><a href="${pageContext.request.contextPath}/listprod.jsp"><img src="${pageContext.request.contextPath}/Images/ProductsButton.jpg" width="123" height="40" /></a></td>
+	<td><a href="${pageContext.request.contextPath}/showcart.jsp"><img src="${pageContext.request.contextPath}/Images/CartButton.jpg" width="73" height="40" /></a></td>
+	<td><a href="${pageContext.request.contextPath}/account.jsp"><img src="${pageContext.request.contextPath}/Images/AccountButton.jpg" width="117" height="40" /></a></td>
 	</tr>
 	</table>
 </form>

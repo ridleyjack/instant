@@ -9,6 +9,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="java.util.Calendar" %>
 
 <%@include file="database.jsp" %>
 <%
@@ -16,12 +17,44 @@ String userId = null;
 
 try(Connection con = getConnection()){	
 	//check if user is signed in
-	if (session.getAttribute("authenticatedUserId") == null || session.getAttribute("authenticatedUser") == null){
+	if (session.getAttribute("authenticatedUserId") == null || session.getAttribute("authenticatedUser") == null || 
+	session.getAttribute("authenticatedUserId").toString().equals("")){
+		
 		request.setAttribute("loginMessage", "Please Log In First");
 		request.getRequestDispatcher("loginForm.jsp").forward(request, response);
 		return;
 	}
 	userId = session.getAttribute("authenticatedUserId").toString();
+	
+	//Billing Information Check
+	if (request.getParameter("cardHolder").equals("")|| 
+	request.getParameter("cardNumber").equals("") || 
+	request.getParameter("cardDay").equals("") || 
+	request.getParameter("cardMonth").equals("") ||
+	request.getParameter("cardYear").equals("")) {
+	out.println("One or more credit card fields is Missing!");
+	return;
+	}
+
+	//card date validation
+	int year = Integer.valueOf( request.getParameter("cardYear").toString() );
+	int day = Integer.valueOf( request.getParameter("cardDay").toString() );
+	int month = Integer.valueOf( request.getParameter("cardMonth").toString() );
+	Calendar card = Calendar.getInstance();
+	card.set(year, month-1, day);
+	Calendar now = Calendar.getInstance();
+	
+	if( card.before(now) ){
+		out.println("Your card is expired!");
+		return;
+	}
+	
+	//Make sure we have products to order
+	if (session.getAttribute("emptyOrder") == null || session.getAttribute("emptyOrder").equals("true")){
+		out.println("Your order contains no items, or all items in your cart are out of stock!");
+		return;
+	}
+	session.removeAttribute("emptyOrder");
 	
 	//Product cart
 	@SuppressWarnings({"unchecked"})
@@ -78,7 +111,7 @@ try(Connection con = getConnection()){
 	PreparedStatement updateStock = con.prepareStatement("UPDATE StoresProduct AS sp SET amount=? WHERE sp.productId=? AND sp.warehouseId=? ");	
 	//Creates a new shipment
 	PreparedStatement createShip = con.prepareStatement("INSERT INTO Shipment(orderId, addressId) Values(?,?)", Statement.RETURN_GENERATED_KEYS);
-	//Create A ProductSelection
+	//Create an OrderedProduct
 	PreparedStatement createPrepShip = con.prepareStatement("INSERT INTO OrderedProduct(productId, warehouseId, shipmentId, amount) Values(?,?,?,?)");
 		
 	//Add All The Products 
@@ -140,7 +173,8 @@ try(Connection con = getConnection()){
 			createPrepShip.setInt(4, amountTaken);
 			createPrepShip.executeUpdate();			
 		}
-	}
+	} //end while iterator.hasNext() products
+	
 	//Clear the list of products to add to the order
 	session.setAttribute("productsInOrder", null);
 	
@@ -174,31 +208,39 @@ try(Connection con = getConnection()){
 		addDegree.setString(2, degreeId);
 		addDegree.execute();
 	}
-	//Reset The Degree Cart
-	session.setAttribute("degreeList", null);
 
 	double orderTotal = 0;
 	int pointTotal = 0;
 	try{//Lazy validation
 		orderTotal = Double.parseDouble( session.getAttribute("orderTotalCost").toString() );
+		session.setAttribute("orderTotalCost", null);
 		pointTotal = Integer.parseInt(session.getAttribute("orderTotalPoint").toString());
+		session.setAttribute("orderTotalPoint", null);
 	}
 	catch(Exception e){
 		orderTotal = -1;
 		pointTotal = -1;
-	}
+	}	
 	
+	//Round total cost of order to 2 decimal places
 	orderTotal *= 100;
 	orderTotal = Math.round(orderTotal);
 	orderTotal /= 100;
 	
+	//Give the order it's total cost pointsEarned
 	PreparedStatement updateOrder = con.prepareStatement("Update CustomerOrder SET totalCost=?, pointsEarned=? WHERE orderId=?");
 	updateOrder.setDouble(1, orderTotal);
 	updateOrder.setInt(2, pointTotal);
 	updateOrder.setInt(3, orderId);
 	updateOrder.executeUpdate();
 	
-	response.sendRedirect("orderForm.jsp?orderId=" + orderId);
+	//Reset Variables
+	session.setAttribute("degreeList", null); //degree cart
+	session.setAttribute("productList", null); //product cart
+	session.setAttribute("productsInOrder", null); // actual amount of products ordered
+	
+	request.setAttribute("orderId", orderId);
+	request.getRequestDispatcher("orderForm.jsp").forward(request, response);
 }
 catch(SQLException ex) {out.print(ex); }
 

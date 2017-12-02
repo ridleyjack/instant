@@ -2,8 +2,9 @@
     pageEncoding="ISO-8859-1"%>
     
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-   <%@include file="header.jsp" %>
    
+   <%@ include file="/header.jsp" %>
+   <%@ include file="validateAdmin.jsp" %>
     <% 
 //Check if the user is logged in
 if (session.getAttribute("authenticatedUser") != null){

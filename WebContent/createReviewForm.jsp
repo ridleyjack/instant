@@ -1,3 +1,5 @@
+
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
  
@@ -23,7 +25,7 @@ String prodid = request.getParameter("id");
 request.setAttribute("id",prodid);
 %>
 <form action="createReview.jsp?id=${id }" method="post">
-Description (1000 Characters max): <input type = "text" name= "desc">
+    Description (1000 Characters max): <textarea rows="6" name= "desc"></textarea>
 Rating (1-5): <input type = "text" name= "rating">
   <input type="submit" value="Create Review">
   <input type="hidden" id="prodid" name = "prod" value ="${prodid }"> 

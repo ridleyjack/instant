@@ -31,7 +31,7 @@ input[type=number]{
             <td></td>                     
             <td><form action ="showcart.jsp" method=post>
 			<input type="hidden" name="updateId" value="${row.productId}"> 
-			<input type="number" min="1" maxlength="2" name="updateQty" value="${row.quantity}">
+			<input type="number" min="1" max="99" name="updateQty" value="${row.quantity}">
 			<input type="submit" value="change">                      	
            	</form></td>	
             <td><c:out value="${row.subtotal}" /></td>			 

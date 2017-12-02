@@ -8,7 +8,7 @@
   
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<%@include file="header.jsp" %>
+<%@include file="/header.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -19,7 +19,7 @@
 <div class=list>
 <c:choose>
 <c:when test="${isAdmin==1 }">
-<h1>Add a Product</h1>
+<h1>Set a Product Image</h1>
 
 <form action="setPic.jsp" method="post">
 <p>Product Name: <input type = "text" name= "pname"></p>

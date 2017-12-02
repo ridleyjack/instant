@@ -5,7 +5,9 @@
  
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>  
 <%@ page import="javax.servlet.jsp.jstl.sql.ResultSupport" %>  
-  <%@include file="../database.jsp" %>
+
+<%@include file="validateAdmin.jsp" %>
+<%@include file="../database.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -38,8 +40,10 @@ Integer imageId = -1;
 int productId = -1;
 Integer categoryId = null;
 int prod = -1;
-
-
+boolean check1=false;
+boolean check2=false;
+boolean check3=false;
+boolean check4=false;
 
 if(oldpname!=null){
 	
@@ -89,6 +93,7 @@ cat.setString(1, category);
 ResultSet rst = cat.executeQuery();
 while(rst.next()){
 	categoryId = rst.getInt("categoryId");
+    check1=true;
 }
 }catch(Exception e){out.print("No such category Found");
 return;}
@@ -98,6 +103,7 @@ image.setString(1, imageName);
 ResultSet rst = image.executeQuery();
 while(rst.next()){
 	imageId = rst.getInt("imageId");
+    check2=true;
 }
 
 }catch(Exception e){out.print("No such image Found");
@@ -108,11 +114,13 @@ prodId.setString(1, oldpname);
 ResultSet rst = prodId.executeQuery();
 while(rst.next()){
 	prod = rst.getInt("productId");
+    check3=true;
 }
 
 }catch(Exception e){out.print("No such product Found");
 return;}
-if(!imageName.equals("")){
+
+if(!imageName.equals("")&&check1==true&&check2==true&&check3==true){
 PreparedStatement update = con.prepareStatement("UPDATE Product SET pname=?,description=?,price=?,pointValue=?,categoryId=?,imageId=? WHERE productId = ?");
 update.setString(1,newpname);
 update.setString(2,description);
@@ -124,6 +132,10 @@ update.setInt(7, prod);
 update.executeUpdate();
 out.print("Product Updated");
 }else{
+    out.print("invalid product or category or image");
+    return;
+    }
+if(imageName.equals("")&&check1==true&&check3==true&&check2==false){
 	PreparedStatement update = con.prepareStatement("UPDATE Product SET pname=?,description=?,price=?,pointValue=?,categoryId=? WHERE productId = ?");
 	update.setString(1,newpname);
 	update.setString(2,description);
@@ -133,24 +145,32 @@ out.print("Product Updated");
 	update.setInt(6, prod);
 	update.executeUpdate();
 	out.print("Product Updated");
+}else{
+    out.print("invalid product or category" );
+    return;
+    }
 }
-}else if(delete!=null){
+ if(delete!=null){
 	try{PreparedStatement prodId = con.prepareStatement("SELECT productId FROM Product WHERE pname = ?");
 	prodId.setString(1, delete);
 	ResultSet rst = prodId.executeQuery();
 	while(rst.next()){
 		prod = rst.getInt("productId");
+        check4=true;
 	}
 
 	}catch(Exception e){out.print("No such product Found");
 	return;}
-	
+	if(check4==true){
 	PreparedStatement delprod = con.prepareStatement("DELETE FROM Product WHERE productId = ?");
 	delprod.setInt(1, prod);
 	delprod.executeUpdate();
 	out.print("Product Deleted");
+}else{
+    out.print("no product found");
+    return;
+    }
 }
-
 
 }catch(SQLException ex){ out.print(ex);}
 %>

@@ -5,7 +5,9 @@
  
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>  
 <%@ page import="javax.servlet.jsp.jstl.sql.ResultSupport" %>  
-  <%@include file="../database.jsp" %>
+
+<%@include file="validateAdmin.jsp" %>
+<%@include file="../database.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>

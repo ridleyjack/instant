@@ -15,7 +15,7 @@
 
 <table>
 	<tr>
-		<th>Name</th><th>Order Id</th><th>Cost</th><th>Points Earned</th><th>Shipment Id</th><th>Shipped</th><th>Recieved</th><th>Status</th>
+		<th>Name</th><th>Order Id</th><th>Cost</th><th>Points Earned</th><th>Shipment Id</th><th>Shipped</th><th>Date Shipped</th><th>Date Received</th>
 	</tr>
     <c:forEach var="row" items="${orders.rows}">
         <tr>
@@ -24,9 +24,9 @@
             <td><c:out value="${row.totalCost}" /></td>
             <td><c:out value="${row.pointsEarned}" /></td>
             <td><c:out value="${row.shipmentId}" /></td>
+            <td><c:out value="${row.readyToShip}" /></td>
             <td><c:out value="${row.shipped}" /></td>
             <td><c:out value="${row.recieved}" /></td>
-            <td><c:out value="${row.statusCode}" /></td>
         </tr>
     </c:forEach>
 </table>

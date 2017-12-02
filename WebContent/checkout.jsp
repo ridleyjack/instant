@@ -154,8 +154,8 @@ try(Connection con = getConnection()){
 		productsInOrder.add(productOrder);
 		
 		productTotal = productTotal + price*quantity;	
-		productCount += quantity;
-		pointTotal += point;
+		pointTotal = pointTotal + point*quantity;
+		productCount += quantity;		
 	}//end iterate through products
 	
 	
@@ -185,6 +185,19 @@ try(Connection con = getConnection()){
 	double purchaseShipping = (degreeCount+productCount)*shipCost_Per_Item;
 	double purchaseTotal = purchaseCost + purchaseTax + purchaseShipping;
 	
+	if(purchaseTotal >= 10000000 ){
+		out.print("Sorry your order is too expensive, orders must be less than 9999999.99. Please consider two differernt orders.");
+		return;
+	}
+	
+	
+	//Is the order empty
+	String emptyOrder = "false";
+	if(degreeCount == 0 && productCount == 0){
+		emptyOrder = "true";
+	}	
+	
+	session.setAttribute("emptyOrder", emptyOrder);
 	//Shipment Information
 	session.setAttribute("productsInOrder", productsInOrder);
 	session.setAttribute("orderTotalCost", purchaseTotal);

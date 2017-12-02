@@ -12,7 +12,6 @@
 <%
 
 String itemId = request.getParameter("id");
-System.out.println(itemId);
 if(itemId== null||itemId.equals("")){
 	out.println("No such product exists.");
 	out.println(request.getParameter("desc"));
@@ -49,18 +48,37 @@ if(length.length()>1000){
 	out.println("Description is too long");
 	return;
 }
-try(Connection con = Database.getConnection()){
-	PreparedStatement check = con.prepareStatement("SELECT COUNT(reviewId) AS amt,productId,Account.accountId AS acct FROM Review, Account WHERE Review.accountId=Account.accountId AND Review.productId = ? AND Review.accountId= ?");
-	check.setString(1, itemId);
-	check.setString(2, userId);
+try(Connection con =getConnection()){
+	//Get count of reviews user has written
+	PreparedStatement check = con.prepareStatement("SELECT count(*) as amount FROM Review Where accountId=? and productId=?;");
+	check.setString(1, userId);
+	check.setString(2, itemId);
 	ResultSet amtR = check.executeQuery();
+	
+	//Get total amount of the product customer has ordered
+	PreparedStatement getOrdered = con.prepareStatement("SELECT sum(amount) AS amount FROM Account AS a, CustomerOrder AS co, Shipment AS s, OrderedProduct AS op"+
+			" WHERE a.accountId = co.accountId AND s.orderId = co.orderId AND s.shipmentId = op.shipmentId"+
+			" AND a.accountId=? AND op.productId=?");
+	getOrdered.setString(1, userId);
+	getOrdered.setString(2, itemId);
+	ResultSet orderedProduct = getOrdered.executeQuery();
+	
+	int productAmount = 0;
+	if(orderedProduct.next()){
+		productAmount = orderedProduct.getInt("amount");
+	}
+	if(productAmount == 0){
+		out.println("You can only review products you have ordered");
+		return;
+	}
+	
 	Integer amount = null;
 	String prodname = null;
-	PreparedStatement product = con.prepareStatement("SELECT pname FROM Product WHERE productId = ?");
+	PreparedStatement product = con.prepareStatement("SELECT pname FROM Product WHERE productId=?");
 	product.setString(1,itemId);
 	ResultSet prod = product.executeQuery();
-	while(amtR.next()){
-		amount = amtR.getInt("amt");
+	if(amtR.next()){
+		amount = amtR.getInt("amount");
 	}
 	while(prod.next()){
 		prodname = prod.getString("pname");
@@ -82,7 +100,8 @@ try(Connection con = Database.getConnection()){
 	//Get Id number of last created degree
 	ResultSet autogen = addReview.getGeneratedKeys();
 	autogen.next();
-	reviewId = autogen.getInt(1);	
+	reviewId = autogen.getInt(1);
+    out.print("Review Created <script type=\"text/javascript\">window.location = \"http://cosc304.ok.ubc.ca/group20/tomcat/productDetail.jsp?id="+itemId+"\";</script> " );
 	//request.getRequestDispatcher("createReviewForm.jsp").forward(request, response);
 }
 catch(SQLException ex){ out.print(ex);}

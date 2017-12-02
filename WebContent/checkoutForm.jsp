@@ -14,11 +14,21 @@
 <style>
 input[type=number]{
     width: 160px;
+}
+input[name=cardDay] {    
+width: 40px;
+}
+input[name=cardMonth] {    
+width: 40px;
 } 
+input[name=cardYear] {    
+width: 60px;
+}      
 </style>
 </head>
 
 <body>
+    <div class=list>
 <form name="checkout" method="post" action="order.jsp">
 	<h1>Checkout</h1>
 	<h3>User Information</h3>
@@ -34,14 +44,18 @@ input[type=number]{
 	<b>City: <c:out value="${city}"/></b><br>
 	<b>Postal Code: <c:out value="${postal}"/></b><br>
 	<h3>Billing Information</h3>
-	<b>CardHolder Name:</b><input type="text" value="${cname}"><br>
-	<b>CreditCard Number:</b><input type="number" value="" min="13" max="19"><br>
+	<b>CardHolder Name:</b><input name="cardHolder" type="text" value="${cname}"><br>
+	<b>CreditCard Number:</b><input name="cardNumber" type="number" value="1000000000000000" min="99999999999999" max="9999999999999999"><br>
+	<b>Card Expiration:</b> 
+	DD: <input type="number" name="cardDay" value="1" min="1" max="32" maxlength="2">
+	MM: <input type="number" name="cardMonth" value="1" min="1" max="12" maxlength="2">
+	YYYY: <input type="number" name="cardYear" value="2020" min="2017" max="9999" maxlength="4"><br><br>
 	<input type="submit" value="Make Purchase"/>
 </form>
 
 
-<div class=list>
-<table>
+
+<table align="center">
 	<tr>
 		<th>Id</th><th>Name</th><th>Amount In Order</th><th>Message</th>
 	</tr>

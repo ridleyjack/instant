@@ -54,7 +54,7 @@ if (session.getAttribute("loginMessage") != null)
 <form name=myForm onsubmit="return validateForm()" action="createAccount.jsp">
 	<h3>Account Information</h3>
 	User Name:<br>
-	<input type="text" name="username" ><br>
+	<input type="text" name="username" min="4"><br>
 	Password:<br>
 	<input type="password" name="password" ><br>
 	Confirm Password:<br>
@@ -69,7 +69,7 @@ if (session.getAttribute("loginMessage") != null)
 	City:<br>
 	<input type="text" name="city" ><br>
 	Postal Code:<br>
-	<input type="text" name="postalcode" ><br><br>		
+	<input type="text" name="postalcode" min="6" max="6"><br><br>		
 	<input type="hidden" name="type" value="0"> <!-- 0=customer -->	
 	<input type="submit" value="Create Account"><br>
 </form>

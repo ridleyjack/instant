@@ -3,14 +3,14 @@
     
 <%@ page import="java.sql.*" %>    
 <%@ page import="java.util.ArrayList" %>  
-  <%@include file="../database.jsp" %>
 
 <%@ page import="org.apache.commons.fileupload.FileUpload, org.apache.commons.fileupload.servlet.ServletFileUpload, org.apache.commons.fileupload.FileItem, org.apache.commons.fileupload.disk.DiskFileItemFactory"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Iterator"%>
 <%@ page import="java.io.File"%>
- 
 
+<%@include file="../database.jsp" %> 
+<%@include file="validateAdmin.jsp" %>
 <%
 try
 {		

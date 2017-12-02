@@ -5,8 +5,9 @@
 
 <%@ page import="javax.servlet.jsp.jstl.sql.Result" %>  
 <%@ page import="javax.servlet.jsp.jstl.sql.ResultSupport" %>  
-    <%@include file="../database.jsp" %>
+<%@include file="../database.jsp" %>
 
+<%@include file="validateAdmin.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -33,7 +34,8 @@ Integer points = null;
 int imageId = -1;
 int productId = -1;
 Integer categoryId = null;
-
+boolean check1=false;
+boolean check2=false;
 
 
 if(pname.equals("")||pname.length()>255){
@@ -58,8 +60,10 @@ try(Connection con = getConnection()){
 try{PreparedStatement cat = con.prepareStatement("SELECT categoryId FROM ProductCategory WHERE catName = ?");
 cat.setString(1, category);
 ResultSet rst = cat.executeQuery();
+
 while(rst.next()){
 	categoryId = rst.getInt("categoryId");
+    check1=true;
 }
 }catch(Exception e){out.print("No such category Found");
 return;}
@@ -71,11 +75,12 @@ image.setString(1, imageName);
 ResultSet rst = image.executeQuery();
 while(rst.next()){
 	imageId = rst.getInt("imageId");
+    check2=true;
 }
 }catch(Exception e){out.print("No such image Found");
 return;}
 }
-	
+if(check1==true&&check2==true){
 if(!imageName.equals("")){
 PreparedStatement stmt = con.prepareStatement("INSERT INTO Product(pname,description,price,pointValue,categoryId,imageId) VALUES (?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
 stmt.setString(1,pname);
@@ -89,10 +94,11 @@ session.setAttribute("ProductAdded", "Product added Successfully!");
 ResultSet autogen = stmt.getGeneratedKeys();
 autogen.next();
 productId = autogen.getInt(1);	
-out.print("Product Added");
-
-}else{
-	PreparedStatement stmt = con.prepareStatement("INSERT INTO Product(pname,description,price,pointValue,categoryId,imageId) VALUES (?,?,?,?,?,null)",Statement.RETURN_GENERATED_KEYS);
+response.sendRedirect("addProductForm.jsp");
+}
+    }else if(check1==true&&check2==false){
+	if(imageName.equals("")){
+    PreparedStatement stmt = con.prepareStatement("INSERT INTO Product(pname,description,price,pointValue,categoryId,imageId) VALUES (?,?,?,?,?,null)",Statement.RETURN_GENERATED_KEYS);
 	stmt.setString(1,pname);
 	stmt.setString(2, description);
 	stmt.setDouble(3,Price);
@@ -104,7 +110,11 @@ out.print("Product Added");
 	autogen.next();
 	productId = autogen.getInt(1);
 	out.print("Product Added");
-}
+	response.sendRedirect("addProductForm.jsp");
+}}else{
+    out.print("invalid category or image");
+    return;
+    }
 
 
 }catch(SQLException ex){ out.print(ex);}

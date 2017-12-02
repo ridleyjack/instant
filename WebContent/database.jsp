@@ -20,7 +20,7 @@ public Connection getConnection() throws SQLException{
 	{
 		System.out.println("ClassNotFoundException: " +e);
 	}
-	//Thread pool not working
+	//Thread pool not working on cosc304 machine
 	/*
 	try {		
 		// Get DataSource

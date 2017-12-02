@@ -31,13 +31,18 @@ String city = request.getParameter("city");
 String postalCode = request.getParameter("postalcode");
 
 //Validation
-if(street.length()<4 || city.length()<4||postalCode.length()!=6){
-	out.print("Missing/Invalid Fields In Address");
+if(street.length()<1 || city.length()<1||postalCode.length()!=6){
+	out.print("Missing/Invalid Fields In Address, Note: PostalCode Must be 6 characters.");
 	return;
 }
 
 // Account type: -1=none 0=customer 1,2=admins
 int type = Integer.parseInt(request.getParameter("type"));
+
+if( request.getParameter("password") == null || request.getParameter("password").length() == 0){
+	out.print("password must be at least one character long"); //low standards
+	return;
+}
 
 //hash the password
 String password = genhash_SHA256(request.getParameter("password"));

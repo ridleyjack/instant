@@ -14,21 +14,11 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Products</title>
 </head>
 
 <body>
     <div class=list>
-<%
-//grab categories from database
-try(Connection con = getConnection()){
-	ResultSet cat = con.createStatement().executeQuery("Select categoryId, catName From ProductCategory");
-	Result cats = ResultSupport.toResult(cat);
-	request.setAttribute("categories", cats);	
-}
-catch(SQLException ex){ out.print(ex);}
-
-%>
 
 <form action="listprod.jsp" method=get>
 	Category:	
@@ -39,13 +29,13 @@ catch(SQLException ex){ out.print(ex);}
 		</c:forEach>
 	</select>
 	Name:
-	<input type="text" name="productName" size="50"><br>
-	<input type="submit" value="Show Products">
+	<input type="text" name="productName" size="50">
+	<input type="submit" value="Search">
 </form> 
 
 <table>
 	<tr>
-		<th>Image</th><th>Name</th><th>Category</th><th>Description</th><th>Price</th><th>Points</th>
+		<th>Image</th><th>Name</th><th>Category</th><th>Description</th><th>Price</th><th>Points</th><th colspan="2"></th>
 	</tr>
     <c:forEach var="row" items="${products.rows}">
         <tr>

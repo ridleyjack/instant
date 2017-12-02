@@ -13,53 +13,79 @@
 
 </head>
 <body>
+<div class=list>
+<sql:setDataSource var = "database" driver = "com.mysql.jdbc.Driver"
+   url = "jdbc:mysql://cosc304.ok.ubc.ca/db_jjackson"
+   user = "jjackson"  password = "86696549"/>
 
-      <sql:setDataSource var = "database" driver = "com.mysql.jdbc.Driver"
-         url = "jdbc:mysql://cosc304.ok.ubc.ca/db_jjackson"
-         user = "jjackson"  password = "86696549"/>
+<sql:query var="order" dataSource="${database}">
+    Select * From CustomerOrder Where orderId= ?;
+    <sql:param value="${orderId}" />
+</sql:query>
 
 <sql:query var="shipment" dataSource="${database}">
-    Select Shipment.*, Address.city From Shipment, Address Where Address.addressId = Shipment.addressId AND orderId=${param.orderId};
+    Select Shipment.*, Address.city From Shipment, Address Where Address.addressId = Shipment.addressId AND orderId=?;
+    <sql:param value="${orderId}" />
 </sql:query>
-    
-<table border="1">
+
+
+<table>
+	<c:forEach var="row" items="${order.rows}">
+	<tr>
+	<th>Order Id</th><th>Date Placed</th><th>Cost</th><th>Points Earned</th>
+	</tr>
+	<tr>
+	<td><c:out value="${row.orderId}"/></td>
+	<td><c:out value="${row.placed}"/></td>
+	<td><c:out value="${row.totalCost}"/></td>
+	<td><c:out value="${row.pointsEarned}"/></td>
+	</tr>
+	</c:forEach> 
+</table>
+
+      
+	<c:forEach var="row" items="${shipment.rows}">
+	<table>
 	<tr>
 	<th>ShipmentId</th><th>ReadyToShip</th><th>AddressId</th><th>Address City</th>
-	</tr>        
-	<c:forEach var="row" items="${shipment.rows}">
+	</tr>  	
 		<tr>
 			<td><c:out value="${row.shipmentId}"/></td>
-			<td><c:out value="${rpw.readyToShip}"/></td>
+			<td><c:out value="${row.readyToShip}"/></td>
 			<td><c:out value="${row.addressId}"/></td>
 			<td><c:out value="${row.city}"/></td>
 		</tr>     
 				
-		<tr><td colspan="6">		
-		<sql:query var="product" dataSource="${database}">
-			Select * From OrderedProduct, Product, Warehouse Where Warehouse.warehouseId = OrderedProduct.wareHouseId And OrderedProduct.productId = Product.productId And shipmentId=${row.shipmentId};
-		</sql:query>
-						
-		<table border="1">	
-		<tr>
-		<th>ProductId</th><th>Product Name</th><th>Amount</th><th>WarehouseId</th><th>Warehouse City</th>
-		</tr>
-		
-		<c:forEach var="prod" items="${product.rows}">
+		<tr><td colspan="4">		
+			<sql:query var="product" dataSource="${database}">
+				Select * From OrderedProduct, Product, Warehouse Where Warehouse.warehouseId = OrderedProduct.wareHouseId And OrderedProduct.productId = Product.productId And shipmentId=?;
+				<sql:param value="${row.shipmentId}" />
+			</sql:query>
+							
+			<table>	
 			<tr>
-				<td><c:out value="${prod.productId}"/></td>
-				<td><c:out value="${prod.pname}"/></td>
-				<td><c:out value="${prod.amount}"/></td>
-				<td><c:out value="${prod.warehousId}"/></td>
-				<td><c:out value="${prod.city}"/></td>
+			<th>ProductId</th><th>Product Name</th><th>Amount</th><th>WarehouseId</th><th>Warehouse City</th>
 			</tr>
-		</c:forEach>							      	
-		</table>	
+			
+			<c:forEach var="prod" items="${product.rows}">
+				<tr>
+					<td><c:out value="${prod.productId}"/></td>
+					<td><c:out value="${prod.pname}"/></td>
+					<td><c:out value="${prod.amount}"/></td>
+					<td><c:out value="${prod.warehouseId}"/></td>
+					<td><c:out value="${prod.city}"/></td>
+				</tr>
+			</c:forEach>							      	
+			</table>
+		</td></tr>	
 		
+		<tr><td colspan="4">
 		<sql:query var="degree" dataSource="${database}">
-			Select * From DegreeOrder Where shipmentId=${row.shipmentId};
+			Select * From DegreeOrder Where shipmentId=?;
+			<sql:param value="${row.shipmentId}" />
 		</sql:query>
 		
-		<table border="1">
+		<table>
 			<tr>
 				<th>DegreeId</th><th>Name Field</th><th>University</th><th>Discipline</th>
 			</tr>
@@ -72,8 +98,9 @@
 		</table>
 					   	
 		</td></tr>
+	</table>		
 	</c:forEach>
-</table>
 
+</div>
 </body>
 </html>

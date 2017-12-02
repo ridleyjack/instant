@@ -24,19 +24,34 @@ String nameLike = request.getParameter("productName");
 
 //load products from database
 try(Connection con = getConnection()){
-	PreparedStatement getProducts = null;
+
+	//Lets build a SQL statment based on arguments (NO USER INPUT IN HERE)
+	StringBuilder sqlBuilder = new StringBuilder("Select p.*, c.catName From Product AS p, ProductCategory AS c Where p.categoryId=c.categoryId");
 	
-	if(category==null || category.equals("all")){
-		//select all products
-		getProducts = con.prepareStatement("Select p.*, c.catName From Product as p, ProductCategory as c Where p.categoryId = c.categoryId and p.pname Like ?");
-		getProducts.setString(1, "%"+nameLike+"%");
+	String categoryArg = null;
+	if(category != null && !category.equals("all")){
+		sqlBuilder.append(" AND c.categoryId=?");
+		categoryArg = category; 
 	}	
-	else{
-		//select only products in some categories
-		getProducts = con.prepareStatement("Select p.*, c.catName From Product as p, ProductCategory as c Where p.categoryId = c.categoryId and c.categoryId=? and p.pname Like ?");
-		getProducts.setString(1, category); //category id = ?
-		getProducts.setString(2, "%"+nameLike+"%");
+	String nameLikeArg = null;
+	if(nameLike != null && nameLike != ""){
+		sqlBuilder.append(" AND p.pname Like ?");
+		nameLikeArg = "%"+nameLike+"%";
 	}
+	
+	//Lets prepare that statement
+	PreparedStatement getProducts = con.prepareStatement( sqlBuilder.toString() );
+	
+	//Lets give it some arguments (order of these is important becuase of argId)
+	int argId = 1;
+	if(categoryArg != null){
+		getProducts.setString(argId, categoryArg);
+		argId++;
+	}
+	if(nameLikeArg != null){
+		getProducts.setString(argId, nameLikeArg);
+		argId++;	
+	}		
 	
 	ResultSet rslt = getProducts.executeQuery();
 	
@@ -44,15 +59,17 @@ try(Connection con = getConnection()){
 	Result prods = ResultSupport.toResult(rslt);
 	//Store result in request
 	request.setAttribute("products", prods);
+	
+	//Load up Categories for the listprodForm's dropdown list
+	PreparedStatement grabCategories = con.prepareStatement("SELECT categoryId, catName FROM ProductCategory");
+	ResultSet categories = grabCategories.executeQuery();
+	//JSTL uses different form of result
+	Result categoriesResult = ResultSupport.toResult(categories);
+	request.setAttribute("categories", categoriesResult);
+	
 	//Go to the listprodForm
 	request.getRequestDispatcher("listprodForm.jsp").forward(request, response);
 	
-	/*
-	if(! (request.getParameter("viewid")== null) ){
-	//redirect with data to caller of the jsp if viewid was set
-	request.getRequestDispatcher(request.getParameter("viewid")).forward(request, response);
-	}
-	*/
 }
 catch(SQLException ex){ out.print(ex);}
 
