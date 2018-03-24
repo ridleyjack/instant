@@ -1,6 +1,17 @@
 # Instant Degree
 Instant Degree web site for our cosc304 project
 
+  This website was create by Zach, Spencer, Thomas and I for our cosc304 project. It was written before I knew how to use git properly so all the commits are to the master branch. Nobody else wanted to learn git so I am the only contributer and had to merge everbody elses code into mine. Most of the code in the Webdevelop folder is mine, but not the stuff in the root directories, some of the code is also based on what our professor provided. 
+  
+    If you are looking for my code here is some from this project that is almost all mine...
+  https://github.com/ridleyjack/instant/blob/readmeupdate/WebContent/order.jsp
+  https://github.com/ridleyjack/instant/blob/readmeupdate/WebContent/createdegree.jsp
+  https://github.com/ridleyjack/instant/blob/readmeupdate/WebContent/imageview.jsp
+  
+  
+  Below here I tried to write some instructions to help out my group members but, I was very tired when I wrote it, so it's hard to understand.  
+<hr>
+
 **Configuring the project to use your database!**
 1) go to Java_Resources/ridleyjack.insta.data/LoadData.java and change the username, password, database fields like in lab 7, except
   use your mysql db not use the microsoft sql one.
